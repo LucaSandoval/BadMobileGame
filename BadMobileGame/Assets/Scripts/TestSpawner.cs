@@ -6,17 +6,13 @@ public class TestSpawner : MonoBehaviour
 {
     public List<GameBoardPeice> shapes;
 
-    private GamePieceController pieceController;
-
     void Start()
     {
-        pieceController = GetComponent<GamePieceController>();
-
-        GameBoardPeice test1 = pieceController.SpawnShape(ShapeType.square, ShapeColor.red);
+        GameBoardPeice test1 = GameEntityController.SpawnShape(ShapeType.square, ShapeColor.red);
         test1.SetPosition(new Vector2(-2f, 0));
         test1.MultiplyPiece(3);
 
-        GameBoardPeice test2 = pieceController.SpawnShape(ShapeType.triangle, ShapeColor.red);
+        GameBoardPeice test2 = GameEntityController.SpawnShape(ShapeType.triangle, ShapeColor.red);
         test2.SetPosition(new Vector2(2f, 0));
         test2.MultiplyPiece(3);
     }

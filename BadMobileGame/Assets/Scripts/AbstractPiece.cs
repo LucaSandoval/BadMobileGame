@@ -8,16 +8,11 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     protected SpriteRenderer ren;
     protected Sprite baseSprite;
 
-    //Component Refs
-    protected GamePieceController shapeController;
-
     
     //Sets up basic components and default info
-    public virtual void BaseInitialize(GamePieceController controller)
+    public virtual void BaseInitialize()
     {
         ren = gameObject.AddComponent<SpriteRenderer>();
-
-        shapeController = controller;
 
         //Fallback sprite if nothing else loads for some reason
         baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");

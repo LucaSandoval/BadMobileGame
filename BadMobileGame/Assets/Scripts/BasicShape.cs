@@ -13,9 +13,9 @@ public class BasicShape : AbstractPiece
     private Sprite triangleSprite;
     private Sprite circleSprite;
 
-    public void Initialize(ShapeType type, ShapeColor color, GamePieceController controller)
+    public void Initialize(ShapeType type, ShapeColor color)
     {
-        base.BaseInitialize(controller);
+        base.BaseInitialize();
         shapeType = type;
         shapeColor = color;
 
@@ -28,7 +28,7 @@ public class BasicShape : AbstractPiece
 
     public override GameBoardPeice DuplicatePiece()
     {
-        BasicShape newShape = shapeController.SpawnShape(shapeType, shapeColor);
+        BasicShape newShape = GameEntityController.SpawnShape(shapeType, shapeColor);
         return newShape;
     }
 

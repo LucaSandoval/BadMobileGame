@@ -10,7 +10,7 @@ using UnityEngine;
 public interface GameBoardPeice 
 {
     //Muliply this shape by a factor of whatever. Returns an array with references to the new shapes. 
-    GameBoardPeice[] MultiplyPiece(int factor);
+    List<GameBoardPeice> MultiplyPiece(int factor);
 
     //Destroys this shape. Children can define how that looks visually. 
     void DestroyPiece();

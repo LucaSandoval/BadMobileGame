@@ -32,17 +32,17 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
         pieces.Add(newPiece);
     }
 
-    public GameBoardPeice[] GetAllPieces()
+    public List<GameBoardPeice> GetAllPieces()
     {
         throw new System.NotImplementedException();
     }
 
-    public GameBoardPeice[] GetAllPiecesOfColor(ShapeColor color)
+    public List<GameBoardPeice> GetAllPiecesOfColor(ShapeColor color)
     {
         throw new System.NotImplementedException();
     }
 
-    public GameBoardPeice[] GetAllPiecesOfType(ShapeType type)
+    public List<GameBoardPeice> GetAllPiecesOfType(ShapeType type)
     {
         throw new System.NotImplementedException();
     }

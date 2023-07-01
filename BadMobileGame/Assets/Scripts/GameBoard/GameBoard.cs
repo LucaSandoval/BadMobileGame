@@ -10,11 +10,11 @@ public interface GameBoard
     int GetTotalPieces();
 
     //Different sorting functions to get pieces of 
-    GameBoardPeice[] GetAllPieces();
+    List<GameBoardPeice> GetAllPieces();
 
-    GameBoardPeice[] GetAllPiecesOfType(ShapeType type);
+    List<GameBoardPeice> GetAllPiecesOfType(ShapeType type);
 
-    GameBoardPeice[] GetAllPiecesOfColor(ShapeColor color);
+    List<GameBoardPeice> GetAllPiecesOfColor(ShapeColor color);
 
     //Various methods for adding shapes to the board 
     void AddShapeToBoard(ShapeColor color, ShapeType type);

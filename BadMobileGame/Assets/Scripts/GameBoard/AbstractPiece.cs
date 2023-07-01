@@ -25,7 +25,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     }
 
     //Should be overwritten
-    public virtual GameBoardPeice[] MultiplyPiece(int factor)
+    public virtual List<GameBoardPeice> MultiplyPiece(int factor)
     {
         Vector2 originPoint = transform.position;
         float spawnRadius = 1f;
@@ -33,8 +33,8 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         //Create a new array of output peices
         //Set this to be the first piece and position it at the correct
         //spawn point.
-        GameBoardPeice[] newPeices = new GameBoardPeice[factor];
-        newPeices[0] = this;
+        List<GameBoardPeice> newPeices = new List<GameBoardPeice>();
+        newPeices.Add(this);
         newPeices[0].SetPosition(CalculatePointOnCircle(spawnRadius, 0, originPoint));
 
         float step = 360 / factor;
@@ -45,6 +45,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         {
             GameBoardPeice newShape = DuplicatePiece();
             newShape.SetPosition(CalculatePointOnCircle(spawnRadius, i * step, originPoint));
+            newPeices.Add(newShape);
         }
 
         return newPeices;

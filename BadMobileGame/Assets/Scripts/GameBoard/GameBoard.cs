@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+//Any game board will have a collection of GameBoardPeices that can be 
+//manipulated and referenced with the following functions.
+public interface GameBoard
+{
+    //General functions for tracking the state of the board
+    int GetTotalPieces();
+
+    //Different sorting functions to get pieces of 
+    GameBoardPeice[] GetAllPieces();
+
+    GameBoardPeice[] GetAllPiecesOfType(ShapeType type);
+
+    GameBoardPeice[] GetAllPiecesOfColor(ShapeColor color);
+
+    //Various methods for adding shapes to the board 
+    void AddShapeToBoard(ShapeColor color, ShapeType type);
+
+    void AddRandomShapeFromColor(ShapeColor color);
+
+    void AddRandomColorFromShape(ShapeType type);
+}

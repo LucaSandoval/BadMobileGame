@@ -7,12 +7,24 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     //Visuals
     protected SpriteRenderer ren;
     protected Sprite baseSprite;
+    protected RigidBodyStats rigidBodyStats;
 
     
     //Sets up basic components and default info
     public virtual void BaseInitialize()
     {
         ren = gameObject.AddComponent<SpriteRenderer>();
+
+        //Add and configure Rigidbody2D
+        Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
+        rigidBodyStats = Resources.Load<RigidBodyStats>("ScriptableObjects/BaseStats");
+        rb.mass = rigidBodyStats.mass;
+        rb.gravityScale = rigidBodyStats.gravityScale;
+        rb.drag = rigidBodyStats.linearDrag;
+        rb.angularDrag = rigidBodyStats.angularDrag;
+        rb.sharedMaterial = rigidBodyStats.physicsMaterial;
+
+        InitializeBaseShapeCollider();
 
         //Fallback sprite if nothing else loads for some reason
         baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
@@ -68,6 +80,12 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     public virtual Sprite GetBaseShapeSprite()
     {
         return baseSprite;
+    }
+
+    //Sets the base collider as a circle. CAN BE OVERRIDDEN.
+    public virtual void InitializeBaseShapeCollider() 
+    {
+        gameObject.AddComponent<CircleCollider2D>();
     }
 
     //Should be overwritten

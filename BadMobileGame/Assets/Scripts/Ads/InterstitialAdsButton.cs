@@ -52,5 +52,8 @@ public class InterstitialAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnit
 
     public void OnUnityAdsShowStart(string _adUnitId) { }
     public void OnUnityAdsShowClick(string _adUnitId) { }
-    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) { }
+    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) {
+        //Unity Ad done. Let's load another ad for next time we click!
+        LoadAd();
+    }
 }

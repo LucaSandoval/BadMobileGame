@@ -12,11 +12,12 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     void Awake()
     {
         // Get the Ad Unit ID for the current platform:
-#if UNITY_IOS
-        _adUnitId = _iOSAdUnitId;
-#elif UNITY_ANDROID
-        _adUnitId = _androidAdUnitId;
-#endif
+       // Get the Ad Unit ID for the current platform:
+        _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
+            ? _iOSAdUnitId
+            : _androidAdUnitId;
+
+        _adUnitId = _iOSAdUnitId; //HACKED for testing...
 
         // Disable the button until the ad is ready to show:
         _showAdButton.interactable = false;
@@ -60,6 +61,13 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
         {
             Debug.Log("Unity Ads Rewarded Ad Completed");
             // Grant a reward.
+
+            //button now interactable again (for demo).
+            _showAdButton.interactable = true;
+
+            //Let's load another Ad to be ready for next time!
+            LoadAd();
+
         }
     }
 

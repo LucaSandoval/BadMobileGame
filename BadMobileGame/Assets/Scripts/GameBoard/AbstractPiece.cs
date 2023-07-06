@@ -15,6 +15,18 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     {
         ren = gameObject.AddComponent<SpriteRenderer>();
 
+        //Setting tag of Shape to "Shape"
+        gameObject.tag = "Shape";
+
+        InitiializeRigidBody();
+
+        InitializeBaseShapeCollider();
+
+        //Fallback sprite if nothing else loads for some reason
+        baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
+    }
+
+    private void InitiializeRigidBody() {
         //Add and configure Rigidbody2D
         Rigidbody2D rb = gameObject.AddComponent<Rigidbody2D>();
         rigidBodyStats = Resources.Load<RigidBodyStats>("ScriptableObjects/BaseStats");
@@ -24,10 +36,19 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         rb.angularDrag = rigidBodyStats.angularDrag;
         rb.sharedMaterial = rigidBodyStats.physicsMaterial;
 
-        InitializeBaseShapeCollider();
+        //prevent weird collisions
+        float radius = .3f;
+        Collider2D[] colls = Physics2D.OverlapCircleAll(rb.position, radius);
+        foreach(Collider2D coll in colls) {
+            if (coll.CompareTag("Shape")) {
+                if (coll.TryGetComponent(out Rigidbody2D otherRb)) {
+                    Vector2 opposite = rb.transform.position - otherRb.transform.position;
+                    float strength = 10f;
+                    otherRb.AddForce(opposite.normalized * strength);
 
-        //Fallback sprite if nothing else loads for some reason
-        baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
+                }
+            }
+        }
     }
 
     //Should be overwritten

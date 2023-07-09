@@ -5,6 +5,8 @@ using UnityEngine;
 public class BasicJarGameBoard : MonoBehaviour, GameBoard
 {
     public List<GameBoardPeice> pieces;
+    [Header("Board Details")]
+    public Transform initSpawnPosition; //where new shapes should spawn
 
     void Start()
     {
@@ -13,7 +15,10 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AddRandomShapeFromColor(ShapeColor.red);
+        }
     }
 
     public void AddRandomColorFromShape(ShapeType type)
@@ -23,12 +28,14 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
 
     public void AddRandomShapeFromColor(ShapeColor color)
     {
-        throw new System.NotImplementedException();
+        ShapeType randType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length);
+        AddShapeToBoard(color, randType);
     }
 
     public void AddShapeToBoard(ShapeColor color, ShapeType type)
     {
         GameBoardPeice newPiece = GameEntityController.SpawnShape(type, color);
+        newPiece.SetPosition(initSpawnPosition.position);
         pieces.Add(newPiece);
     }
 
@@ -49,6 +56,6 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
 
     public int GetTotalPieces()
     {
-        throw new System.NotImplementedException();
+        return (pieces != null) ? pieces.Count : 0;
     }
 }

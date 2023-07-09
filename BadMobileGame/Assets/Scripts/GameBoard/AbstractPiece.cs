@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
 {
     //Visuals
+    protected GameObject graphicsParent;
+    protected PieceGraphics pieceGraphics;
     protected SpriteRenderer ren;
     protected Sprite baseSprite;
     protected RigidBodyStats rigidBodyStats;
@@ -13,7 +15,12 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     //Sets up basic components and default info
     public virtual void BaseInitialize()
     {
-        ren = gameObject.AddComponent<SpriteRenderer>();
+        graphicsParent = new GameObject();
+        pieceGraphics = graphicsParent.AddComponent<PieceGraphics>();
+        graphicsParent.transform.parent = transform;
+        graphicsParent.name = "Graphics Parent";
+
+        ren = graphicsParent.AddComponent<SpriteRenderer>();
 
         //Setting tag of Shape to "Shape"
         gameObject.tag = "Shape";
@@ -123,4 +130,10 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     {
         gameObject.transform.position = position;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        pieceGraphics.Stretch();
+    }
+
 }

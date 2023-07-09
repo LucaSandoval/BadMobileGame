@@ -19,11 +19,20 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
         {
             AddRandomShapeFromColor(ShapeColor.red);
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            foreach(GameBoardPeice b in GetAllPiecesOfType(ShapeType.square))
+            {
+                pieces.AddRange(b.MultiplyPiece(2));
+            }
+        }
     }
 
     public void AddRandomColorFromShape(ShapeType type)
     {
-        throw new System.NotImplementedException();
+        ShapeColor randColor = (ShapeColor)Random.Range(0, System.Enum.GetValues(typeof(ShapeColor)).Length);
+        AddShapeToBoard(randColor, type);
     }
 
     public void AddRandomShapeFromColor(ShapeColor color)
@@ -41,17 +50,44 @@ public class BasicJarGameBoard : MonoBehaviour, GameBoard
 
     public List<GameBoardPeice> GetAllPieces()
     {
-        throw new System.NotImplementedException();
+        return pieces;
     }
 
     public List<GameBoardPeice> GetAllPiecesOfColor(ShapeColor color)
     {
-        throw new System.NotImplementedException();
+
+        List<GameBoardPeice> colorList = new List<GameBoardPeice>();
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i] is BasicShape)
+            {
+                BasicShape shape = (BasicShape)pieces[i];
+                if (shape.GetShapeColor() == color)
+                {
+                    colorList.Add(pieces[i]);
+                }
+            }
+        }
+
+        return colorList;
     }
 
     public List<GameBoardPeice> GetAllPiecesOfType(ShapeType type)
     {
-        throw new System.NotImplementedException();
+        List<GameBoardPeice> shapeList = new List<GameBoardPeice>();
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i] is BasicShape)
+            {
+                BasicShape shape = (BasicShape)pieces[i];
+                if (shape.GetShapeType() == type)
+                {
+                    shapeList.Add(pieces[i]);
+                }
+            }
+        }
+
+        return shapeList;
     }
 
     public int GetTotalPieces()

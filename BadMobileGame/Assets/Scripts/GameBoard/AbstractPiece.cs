@@ -61,7 +61,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
                     Vector2 opposite = rb.transform.position - otherRb.transform.position;
                     float strength = 10f;
                     otherRb.AddForce(opposite.normalized * strength, ForceMode2D.Impulse);
-
+                    break;
                 }
             }
         }

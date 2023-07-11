@@ -58,6 +58,7 @@ public class BasicShape : AbstractPiece
     }
 }
 
+
 [System.Serializable]
 public enum ShapeType
 {

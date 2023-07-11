@@ -94,4 +94,15 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
     {
         return (pieces != null) ? pieces.Count : 0;
     }
+
+    public void RegisterMultipleNewPeices(List<GameBoardPeice> newPieces)
+    {
+        foreach(GameBoardPeice p in newPieces)
+        {
+            if (!pieces.Contains(p))
+            {
+                pieces.Add(p);
+            }
+        }
+    }
 }

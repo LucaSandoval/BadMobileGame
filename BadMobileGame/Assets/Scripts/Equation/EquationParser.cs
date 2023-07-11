@@ -24,7 +24,6 @@ public class EquationParser : MonoBehaviour
             return;
         }
 
-
         if (operand1 is EquationNumber && operand2 is EquationNumber)
         {
             //Operation on numbers
@@ -42,7 +41,7 @@ public class EquationParser : MonoBehaviour
                 //We are multiplying or dividing, therefore there are a group of eligable pieces for our expression.
                 List<GameBoardPeice> eligablePieces = GetEligiblePiecesFromOperands(operand1, operand2, gameBoard);
 
-                expression.Parse(eligablePieces, number);
+                expression.Parse(eligablePieces, number, gameBoard);
             }
         }
     }
@@ -96,14 +95,14 @@ public class EquationExpression : EquationSymbol
     public EquationExpression(MathSymbol symbol) { mathSymbol = symbol; }
 
     //Parse will be overloaded for each possible expression.
-    public void Parse(List<GameBoardPeice> pieces, int number) //For Multiplying & Dividing shapes
+    public void Parse(List<GameBoardPeice> pieces, int number, GameBoard board) //For Multiplying & Dividing shapes
     {
         switch(mathSymbol)
         {
             case MathSymbol.multiply:
                 foreach(GameBoardPeice p in pieces)
                 {
-                    p.MultiplyPiece(number);
+                    board.RegisterMultipleNewPeices(p.MultiplyPiece(number));
                 }
                 break;
         }

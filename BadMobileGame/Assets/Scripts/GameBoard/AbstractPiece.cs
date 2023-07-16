@@ -142,7 +142,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        pieceGraphics.Stretch();
+        pieceGraphics.Stretch(rb.velocity);
     }
 
 }

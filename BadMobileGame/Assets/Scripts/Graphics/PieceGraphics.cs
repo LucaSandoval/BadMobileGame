@@ -11,8 +11,11 @@ public class PieceGraphics : MonoBehaviour
     Vector3 target = Vector3.one;
     float strength = 6.5f;
 
-    public void Stretch() {
-        target = new Vector3(stretch, stretch, stretch);
+    public void Stretch(Vector2 velocity) {
+        float magnitude = velocity.magnitude;
+        float maxOutStretch = 5f;
+        float magStretch = 1f + ((stretch - 1f) * Mathf.Clamp(magnitude / maxOutStretch, 0f, 1f));
+        target = new Vector3(magStretch, magStretch, magStretch);
         strength = 10f;
 
         OnLerpComplete += ReturnToNormal;

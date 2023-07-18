@@ -10,61 +10,37 @@ public class EquationParser : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ParseEquation(new EquationNumber(3), 
-                new EquationExpression(MathSymbol.multiply), 
+            ParseEquation(new EquationShapeType(ShapeType.triangle), 
+                new AddExpression(), 
+                new EquationColorType(ShapeColor.blue));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ParseEquation(new EquationColorType(ShapeColor.red),
+                new AddExpression(),
                 new EquationShapeType(ShapeType.square));
         }
+
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    ParseEquation(new EquationColorType(ShapeColor.blue),
+        //        new MultiplyExpression(),
+        //        new EquationNumber(2));
+        //}
     }
 
     public void ParseEquation(EquationSymbol operand1, EquationExpression expression, EquationSymbol operand2)
     {
         //Failure cases
+        //CASE 1: BOTH ARE THE SAME TYPE & NOT NUMBERS
         if (!(operand1 is EquationNumber) && !(operand2 is EquationNumber)) //both aren't numbers
         {
-            return;
+            if (operand1.GetType() == operand2.GetType()) { return; }
         }
 
-        if (operand1 is EquationNumber && operand2 is EquationNumber)
-        {
-            //Operation on numbers
-        } else
-        {
-            //Get the number. At this point there must be one.
-            int number = GetNumberFromOperands(operand1, operand2);
-
-            if (expression.mathSymbol == MathSymbol.plus ||
-                expression.mathSymbol == MathSymbol.minus)
-            {
-                
-            } else
-            {
-                //We are multiplying or dividing, therefore there are a group of eligable pieces for our expression.
-                List<GameBoardPeice> eligablePieces = GetEligiblePiecesFromOperands(operand1, operand2, gameBoard);
-
-                expression.Parse(eligablePieces, number, gameBoard);
-            }
-        }
-    }
-
-    //at this point we know that one or other is an number, therefor it won't error
-    private int GetNumberFromOperands(EquationSymbol operand1, EquationSymbol operand2) 
-    {
-        EquationNumber num;
-        num = (operand1 is EquationNumber) ? (EquationNumber)operand1 : (EquationNumber)operand2;
-
-        return num.equationNumber;
-    }
-
-    private List<GameBoardPeice> GetEligiblePiecesFromOperands(EquationSymbol operand1, EquationSymbol operand2, GameBoard board)
-    {
-        EquationSymbolShapeCatagory shapeCatagoryExpression;
-        List<GameBoardPeice> pieces;
-
-        shapeCatagoryExpression = (operand1 is EquationSymbolShapeCatagory) ? (EquationSymbolShapeCatagory)operand1 : (EquationSymbolShapeCatagory)operand2;
-
-        pieces = shapeCatagoryExpression.GetEligablePieces(board);
-
-        return pieces;
+        //Otherwise, let the expression type handle the results 
+        expression.Parse(operand1, operand2, gameBoard);
     }
 }
 
@@ -80,65 +56,121 @@ public class EquationNumber : EquationSymbol
     public EquationNumber(int num) { equationNumber = num; }
 }
 
-public enum MathSymbol
+//Different math implementations
+
+public abstract class EquationExpression : EquationSymbol
 {
-    plus,
-    minus,
-    multiply,
-    divide
+    public abstract void Parse(EquationSymbol operand1, EquationSymbol operand2, GameBoard board);
+
+    //Gets the number from the two operands
+    protected int GetNumberFromOperands(EquationSymbol operand1, EquationSymbol operand2)
+    {
+        EquationNumber num;
+        num = (operand1 is EquationNumber) ? (EquationNumber)operand1 : (EquationNumber)operand2;
+
+        return num.equationNumber;
+    }
+
+    //Gets pieces list from two operands
+    protected List<GameBoardPeice> GetOperatingPiecesListFromOperands(EquationSymbol operand1, EquationSymbol operand2, GameBoard board)
+    {
+        EquationSymbolShapeCatagory shapeCatagoryExpression;
+        List<GameBoardPeice> pieces;
+
+        shapeCatagoryExpression = (operand1 is EquationSymbolShapeCatagory) ? (EquationSymbolShapeCatagory)operand1 : (EquationSymbolShapeCatagory)operand2;
+
+        pieces = shapeCatagoryExpression.GetAllPeicesOfSymbolType(board);
+
+        return pieces;
+    }
+
+    //Gets the non-number equation symbol from two operands. (Only use if you know one is a number.)
+    protected EquationSymbol GetNonNumberSymbolFromOperands(EquationSymbol operand1, EquationSymbol operand2)
+    {
+        return (operand1 is EquationNumber) ? operand2 : operand1;
+    }
 }
 
-public class EquationExpression : EquationSymbol
+public class MultiplyExpression : EquationExpression
 {
-    public MathSymbol mathSymbol;
-
-    public EquationExpression(MathSymbol symbol) { mathSymbol = symbol; }
-
-    //Parse will be overloaded for each possible expression.
-    public void Parse(List<GameBoardPeice> pieces, int number, GameBoard board) //For Multiplying & Dividing shapes
+    public override void Parse(EquationSymbol operand1, EquationSymbol operand2, GameBoard board)
     {
-        switch(mathSymbol)
+        //CASE 1: BOTH ARE NUMBERS
+        if (operand1 is EquationNumber && operand2 is EquationNumber)
         {
-            case MathSymbol.multiply:
-                foreach(GameBoardPeice p in pieces)
-                {
-                    board.RegisterMultipleNewPeices(p.MultiplyPiece(number));
-                }
-                break;
+            //Create a new card thats the result of the two nums multiplied 
+            return;
         }
-    }
 
-    public void Parse(ShapeColor color, int number, GameBoard board) //For adding/deleting shapes of a color 
-    {
-        switch(mathSymbol)
+        //CASE 2: ONE OF THE TWO IS A NUMBER
+        if (operand1 is EquationNumber || operand2 is EquationNumber)
         {
-            case MathSymbol.plus:
-                for(int i = 0; i < number; i++)
-                {
-                    board.AddRandomShapeFromColor(color);
-                }             
-                break;
-        }
-    }
+            int number = GetNumberFromOperands(operand1, operand2);
+            List<GameBoardPeice> pieces = GetOperatingPiecesListFromOperands(operand1, operand2, board);
 
-    public void Parse(ShapeType type, int number, GameBoard board) //For adding/deleting shapes of a type 
-    {
-        switch (mathSymbol)
-        {
-            case MathSymbol.plus:
-                for (int i = 0; i < number; i++)
-                {
-                    board.AddRandomColorFromShape(type);
-                }
-                break;
+            foreach(GameBoardPeice p in pieces)
+            {
+                board.RegisterMultipleNewPeices(p.MultiplyPiece(number));
+            }
+
+            return;
         }
+
+        //CASE 3: NEITHER ARE NUMBERS (At this point we know they aren't the same type of Symbol)
+        EquationSymbolShapeCatagory shapeCatagory1 = (EquationSymbolShapeCatagory)operand1;
+        EquationSymbolShapeCatagory shapeCatagory2 = (EquationSymbolShapeCatagory)operand2;
+
+        //Currently arbitrary, but the left side operand will be the effected type of pieces,
+        //while the right operand will be the type of thing to change them into. 
+        shapeCatagory2.ChangePiecesToSymbolType(shapeCatagory1.GetAllPeicesOfSymbolType(board));
     }
 }
+
+public class AddExpression : EquationExpression
+{
+    public override void Parse(EquationSymbol operand1, EquationSymbol operand2, GameBoard board)
+    {
+        //CASE 1: BOTH ARE NUMBERS
+        if (operand1 is EquationNumber && operand2 is EquationNumber)
+        {
+            //Create a new card thats the result of the two nums added 
+            return;
+        }
+
+        //CASE 2: ONE OF THE TWO IS A NUMBER
+        if (operand1 is EquationNumber || operand2 is EquationNumber)
+        {
+            int number = GetNumberFromOperands(operand1, operand2);
+
+            EquationSymbolShapeCatagory shapeCatagory = (EquationSymbolShapeCatagory)GetNonNumberSymbolFromOperands(operand1, operand2);
+            shapeCatagory.AddPiecesOfSymbolTypeToBoard(number, board);
+
+            return;
+        }
+
+        //CASE 3: NEITHER ARE NUMBERS (At this point we know they aren't the same type of Symbol)
+        EquationSymbolShapeCatagory shapeCatagory1 = (EquationSymbolShapeCatagory)operand1;
+        EquationSymbolShapeCatagory shapeCatagory2 = (EquationSymbolShapeCatagory)operand2;
+
+        shapeCatagory1.CombineWithOtherShapeCatagory(shapeCatagory2, board);
+    }
+}
+
+///////////
 
 public abstract class EquationSymbolShapeCatagory : EquationSymbol
 {
     //Color & Shape symbols will define how to get their own pieces
-    public abstract List<GameBoardPeice> GetEligablePieces(GameBoard gameBoard);
+    public abstract List<GameBoardPeice> GetAllPeicesOfSymbolType(GameBoard gameBoard);
+
+    //Takes in a list of pieces and converts them all to this Equation Symbol's type and/or color
+    public abstract void ChangePiecesToSymbolType(List<GameBoardPeice> pieces);
+
+    //Adds a given number of pieces to a given board based on this symbol type 
+    public abstract void AddPiecesOfSymbolTypeToBoard(int number, GameBoard gameBoard);
+
+    //Each symbol type should individually figure out how to combine itself with another catagory
+    public abstract void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board);
 };
 
 public class EquationShapeType : EquationSymbolShapeCatagory
@@ -147,8 +179,72 @@ public class EquationShapeType : EquationSymbolShapeCatagory
 
     public EquationShapeType(ShapeType type) { shapeType = type; }
 
-    public override List<GameBoardPeice> GetEligablePieces(GameBoard gameBoard)
+    public override void AddPiecesOfSymbolTypeToBoard(int number, GameBoard gameBoard)
+    {
+        for(int i = 0; i < number; i++)
+        {
+            gameBoard.AddRandomColorFromShape(shapeType);
+        }
+    }
+
+    public override void ChangePiecesToSymbolType(List<GameBoardPeice> pieces)
+    {
+        foreach(GameBoardPeice p in pieces)
+        {
+            BasicShape shape = (BasicShape)p;
+            shape.ChangeShapeType(shapeType);
+        }
+    }
+
+    public override void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
+    {
+        if (other is EquationColorType)
+        {
+            EquationColorType colorType = (EquationColorType)other;
+            board.AddShapeToBoard(colorType.shapeColor, shapeType);
+        }
+    }
+
+    public override List<GameBoardPeice> GetAllPeicesOfSymbolType(GameBoard gameBoard)
     {
         return gameBoard.GetAllPiecesOfType(shapeType);
+    }
+}
+
+public class EquationColorType : EquationSymbolShapeCatagory
+{
+    public ShapeColor shapeColor;
+
+    public EquationColorType(ShapeColor color) { shapeColor = color; }
+
+    public override void AddPiecesOfSymbolTypeToBoard(int number, GameBoard gameBoard)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            gameBoard.AddRandomShapeFromColor(shapeColor);
+        }
+    }
+
+    public override void ChangePiecesToSymbolType(List<GameBoardPeice> pieces)
+    {
+        foreach (GameBoardPeice p in pieces)
+        {
+            BasicShape shape = (BasicShape)p;
+            shape.ChangeShapeColor(shapeColor);
+        }
+    }
+
+    public override void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
+    {
+        if (other is EquationShapeType)
+        {
+            EquationShapeType shapeType = (EquationShapeType)other;
+            board.AddShapeToBoard(shapeColor, shapeType.shapeType);
+        }
+    }
+
+    public override List<GameBoardPeice> GetAllPeicesOfSymbolType(GameBoard gameBoard)
+    {
+        return gameBoard.GetAllPiecesOfColor(shapeColor);
     }
 }

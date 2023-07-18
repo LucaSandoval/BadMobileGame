@@ -47,6 +47,21 @@ public class BasicShape : AbstractPiece
         return null;
     }
 
+    public override Color GetBaseColor()
+    {
+        switch(shapeColor)
+        {
+            case ShapeColor.red:
+                return Color.red;
+            case ShapeColor.green:
+                return Color.green;
+            case ShapeColor.blue:
+                return Color.blue;
+        }
+
+        return Color.white;
+    }
+
     public ShapeType GetShapeType()
     {
         return shapeType;
@@ -55,6 +70,16 @@ public class BasicShape : AbstractPiece
     public ShapeColor GetShapeColor()
     {
         return shapeColor;
+    }
+
+    public void ChangeShapeType(ShapeType newType)
+    {
+        shapeType = newType;
+    }
+
+    public void ChangeShapeColor(ShapeColor newColor)
+    {
+        shapeColor = newColor;
     }
 }
 

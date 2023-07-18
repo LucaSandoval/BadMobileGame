@@ -119,6 +119,11 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         return baseSprite;
     }
 
+    public virtual Color GetBaseColor()
+    {
+        return Color.white;
+    }
+
     //Sets the base collider as a circle. CAN BE OVERRIDDEN.
     public virtual void InitializeBaseShapeCollider() 
     {
@@ -132,6 +137,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         if (ren && GetBaseShapeSprite())
         {
             ren.sprite = GetBaseShapeSprite();
+            ren.color = GetBaseColor();
         }
     }
 

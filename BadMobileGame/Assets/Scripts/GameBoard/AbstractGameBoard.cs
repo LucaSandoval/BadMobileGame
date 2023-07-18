@@ -18,6 +18,7 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AddRandomShapeFromColor(ShapeColor.red);
+            AddRandomColorFromShape(ShapeType.triangle);
         }
 
         if (Input.GetKeyDown(KeyCode.E))

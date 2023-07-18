@@ -22,6 +22,16 @@ public class EquationParser : MonoBehaviour
                 new EquationShapeType(ShapeType.square));
         }
 
+        foreach(Touch touch in Input.touches)
+        {
+            if(touch.phase == TouchPhase.Began)
+            {
+                ParseEquation(new EquationColorType(ShapeColor.red),
+                new AddExpression(),
+                new EquationShapeType(ShapeType.square));
+            }
+        }
+
         //if (Input.GetKeyDown(KeyCode.Alpha3))
         //{
         //    ParseEquation(new EquationColorType(ShapeColor.blue),

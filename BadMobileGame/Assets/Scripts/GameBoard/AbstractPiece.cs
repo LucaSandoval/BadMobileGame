@@ -28,6 +28,9 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         //Setting tag of Shape to "Shape"
         gameObject.tag = "Shape";
 
+        //Set up base size
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
         //Set up Phyrics
         InitiializeRigidBody();
         InitializeBaseShapeCollider();

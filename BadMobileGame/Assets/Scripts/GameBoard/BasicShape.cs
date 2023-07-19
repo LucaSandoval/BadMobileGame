@@ -19,9 +19,7 @@ public class BasicShape : AbstractPiece
         shapeType = type;
         shapeColor = color;
 
-        squareSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
-        triangleSprite = Resources.Load<Sprite>("Sprites/base_shapes2");
-        circleSprite = Resources.Load<Sprite>("Sprites/base_shapes3");
+
 
         gameObject.name = shapeColor.ToString() + " " + shapeType.ToString();
     }
@@ -34,7 +32,8 @@ public class BasicShape : AbstractPiece
 
     public override Sprite GetBaseShapeSprite()
     {
-        switch(shapeType)
+        return ShapeUtil.ShapeTypeToSprite(shapeType);
+ /*       switch(shapeType)
         {
             case ShapeType.square:
                 return squareSprite;
@@ -44,12 +43,14 @@ public class BasicShape : AbstractPiece
                 return circleSprite;
         }
 
-        return null;
+        return null;*/
     }
 
     public override Color GetBaseColor()
     {
-        switch(shapeColor)
+        return ShapeUtil.ShapeColorToColor(shapeColor);
+
+/*        switch(shapeColor)
         {
             case ShapeColor.red:
                 return Color.red;
@@ -59,7 +60,7 @@ public class BasicShape : AbstractPiece
                 return Color.blue;
         }
 
-        return Color.white;
+        return Color.white;*/
     }
 
     public ShapeType GetShapeType()
@@ -98,4 +99,38 @@ public enum ShapeColor
     red,
     blue,
     green
+}
+
+
+public static class ShapeUtil {
+
+    static Sprite squareSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
+    static Sprite triangleSprite = Resources.Load<Sprite>("Sprites/base_shapes2");
+    static Sprite circleSprite = Resources.Load<Sprite>("Sprites/base_shapes3");
+
+    public static Color ShapeColorToColor(ShapeColor sc) {
+        switch (sc) {
+            case ShapeColor.blue:
+                return Color.blue;
+            case ShapeColor.green:
+                return Color.green;
+            case ShapeColor.red:
+                return Color.red;
+            default:
+                return Color.white;
+        }
+    }
+
+    public static Sprite ShapeTypeToSprite(ShapeType shape) {
+        switch (shape) {
+            case ShapeType.square:
+                return squareSprite;
+            case ShapeType.circle:
+                return circleSprite;
+            case ShapeType.triangle:
+                return triangleSprite;
+            default:
+                return null;
+        }
+    }
 }

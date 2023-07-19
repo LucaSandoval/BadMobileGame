@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EquationParser : MonoBehaviour
@@ -56,7 +57,9 @@ public class EquationParser : MonoBehaviour
 
 //Different equation types
 
-public interface EquationSymbol { };
+public interface EquationSymbol {
+    public void GraphicsSetup(SpriteRenderer sr, TMPro.TMP_Text label);
+};
 
 [System.Serializable]
 public class EquationNumber : EquationSymbol
@@ -64,6 +67,11 @@ public class EquationNumber : EquationSymbol
     public int equationNumber;
 
     public EquationNumber(int num) { equationNumber = num; }
+
+    public void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        label.text = equationNumber.ToString();
+    }
 }
 
 //Different math implementations
@@ -99,6 +107,8 @@ public abstract class EquationExpression : EquationSymbol
     {
         return (operand1 is EquationNumber) ? operand2 : operand1;
     }
+
+    public abstract void GraphicsSetup(SpriteRenderer sr, TMP_Text label);
 }
 
 public class MultiplyExpression : EquationExpression
@@ -134,6 +144,10 @@ public class MultiplyExpression : EquationExpression
         //while the right operand will be the type of thing to change them into. 
         shapeCatagory2.ChangePiecesToSymbolType(shapeCatagory1.GetAllPeicesOfSymbolType(board));
     }
+    public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        label.text = "*";
+    }
 }
 
 public class AddExpression : EquationExpression
@@ -164,6 +178,10 @@ public class AddExpression : EquationExpression
 
         shapeCatagory1.CombineWithOtherShapeCatagory(shapeCatagory2, board);
     }
+    public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        label.text = "+";
+    }
 }
 
 ///////////
@@ -181,8 +199,8 @@ public abstract class EquationSymbolShapeCatagory : EquationSymbol
 
     //Each symbol type should individually figure out how to combine itself with another catagory
     public abstract void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board);
-};
-
+    public abstract void GraphicsSetup(SpriteRenderer sr, TMP_Text label);
+}
 public class EquationShapeType : EquationSymbolShapeCatagory
 {
     public ShapeType shapeType;
@@ -218,6 +236,11 @@ public class EquationShapeType : EquationSymbolShapeCatagory
     public override List<GameBoardPeice> GetAllPeicesOfSymbolType(GameBoard gameBoard)
     {
         return gameBoard.GetAllPiecesOfType(shapeType);
+    }
+
+    public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        sr.sprite = ShapeUtil.ShapeTypeToSprite(shapeType);
     }
 }
 
@@ -256,5 +279,10 @@ public class EquationColorType : EquationSymbolShapeCatagory
     public override List<GameBoardPeice> GetAllPeicesOfSymbolType(GameBoard gameBoard)
     {
         return gameBoard.GetAllPiecesOfColor(shapeColor);
+    }
+
+    public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        sr.color = ShapeUtil.ShapeColorToColor(shapeColor);
     }
 }

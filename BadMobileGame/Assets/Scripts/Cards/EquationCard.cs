@@ -50,4 +50,9 @@ public class EquationCard : Draggable
         //Graphics functionality lives on each specific EquationSymbol
         equationSymbol.GraphicsSetup(sr, label);
     }
+
+    public void DestroyCard() {
+        Destroy(gameObject);
+    }
+
 }

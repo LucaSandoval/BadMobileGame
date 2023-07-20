@@ -84,7 +84,11 @@ public class EquationSlots : MonoBehaviour
 
     public void RunEquation() {
         //hookup to EquationParser here...
-        print("hello");
-        equationParser.ParseEquation(left.GetEquationSymbol(), (EquationExpression)middle.GetEquationSymbol(), right.GetEquationSymbol());
+        equationParser.ParseEquation(left.GetEquationSymbol(), (EquationExpression)(middle.GetEquationSymbol()), right.GetEquationSymbol());
+
+        //debug
+        left.DestroyCard();
+        middle.DestroyCard();
+        right.DestroyCard();
     }
 }

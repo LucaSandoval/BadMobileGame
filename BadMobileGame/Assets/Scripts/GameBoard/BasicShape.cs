@@ -33,34 +33,11 @@ public class BasicShape : AbstractPiece
     public override Sprite GetBaseShapeSprite()
     {
         return ShapeUtil.ShapeTypeToSprite(shapeType);
- /*       switch(shapeType)
-        {
-            case ShapeType.square:
-                return squareSprite;
-            case ShapeType.triangle:
-                return triangleSprite;
-            case ShapeType.circle:
-                return circleSprite;
-        }
-
-        return null;*/
     }
 
     public override Color GetBaseColor()
     {
         return ShapeUtil.ShapeColorToColor(shapeColor);
-
-/*        switch(shapeColor)
-        {
-            case ShapeColor.red:
-                return Color.red;
-            case ShapeColor.green:
-                return Color.green;
-            case ShapeColor.blue:
-                return Color.blue;
-        }
-
-        return Color.white;*/
     }
 
     public ShapeType GetShapeType()

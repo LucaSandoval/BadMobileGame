@@ -7,7 +7,9 @@ public class CardCloud : MonoBehaviour
     List<EquationCard> deck = new List<EquationCard>();
     public GameObject cardPrefab;
 
+    //scriptable objects for objects
 
+    //need at least one math symbol... 
     void Start()
     {
         //GenerateCardBatch();

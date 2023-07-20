@@ -8,10 +8,13 @@ public class EquationSlots : MonoBehaviour
     EquationCard left;
     EquationCard middle;
     EquationCard right;
+    bool didOnce = false;
 
     [SerializeField] Transform leftSlot;
     [SerializeField] Transform middleSlot;
     [SerializeField] Transform rightSlot;
+
+    [SerializeField] EquationParser equationParser;
 
     public void SlotCard(EquationCard card) {
         if(DEBUG) print("card's Equation Symbol: " + card.GetEquationSymbol());
@@ -26,7 +29,16 @@ public class EquationSlots : MonoBehaviour
                 break;
         }
     }
-    
+
+
+    private void Update()
+    {
+        if (left != null && middle != null && right != null && !didOnce) {
+            RunEquation();
+            didOnce = true;
+        }
+    }
+
     /// <summary>
     /// Assigns the given card to the closer slot (left or right)... 
     /// </summary>
@@ -72,5 +84,7 @@ public class EquationSlots : MonoBehaviour
 
     public void RunEquation() {
         //hookup to EquationParser here...
+        print("hello");
+        equationParser.ParseEquation(left.GetEquationSymbol(), (EquationExpression)middle.GetEquationSymbol(), right.GetEquationSymbol());
     }
 }

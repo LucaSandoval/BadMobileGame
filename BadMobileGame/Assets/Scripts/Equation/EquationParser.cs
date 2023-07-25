@@ -12,14 +12,14 @@ public class EquationParser : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ParseEquation(new EquationShapeType(ShapeType.triangle), 
-                new AddExpression(), 
-                new EquationColorType(ShapeColor.blue));
+                new SubtractExpression(), 
+                new EquationNumber(5));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ParseEquation(new EquationColorType(ShapeColor.red),
-                new AddExpression(),
+                new MultiplyExpression(),
                 new EquationShapeType(ShapeType.square));
         }
 
@@ -48,6 +48,11 @@ public class EquationParser : MonoBehaviour
         if (!(operand1 is EquationNumber) && !(operand2 is EquationNumber)) //both aren't numbers
         {
             if (operand1.GetType() == operand2.GetType()) { return; }
+        }
+        //CASE 2: TRYING TO SUBTRACT ANY 2 SHAPE SYMBOLS (for now, figure this is a mostly useless feature to have) 
+        if((operand1 is EquationSymbolShapeCatagory) && (operand2 is EquationSymbolShapeCatagory) && (expression is SubtractExpression))
+        {
+            return;
         }
 
         //Otherwise, let the expression type handle the results 
@@ -176,11 +181,46 @@ public class AddExpression : EquationExpression
         EquationSymbolShapeCatagory shapeCatagory1 = (EquationSymbolShapeCatagory)operand1;
         EquationSymbolShapeCatagory shapeCatagory2 = (EquationSymbolShapeCatagory)operand2;
 
-        shapeCatagory1.CombineWithOtherShapeCatagory(shapeCatagory2, board);
+        shapeCatagory1.CombineAndAddOtherShapeCatagory(shapeCatagory2, board);
     }
     public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
     {
         label.text = "+";
+    }
+}
+
+public class SubtractExpression : EquationExpression
+{
+    public override void Parse(EquationSymbol operand1, EquationSymbol operand2, GameBoard board)
+    {
+        //CASE 1: BOTH ARE NUMBERS
+        if (operand1 is EquationNumber && operand2 is EquationNumber)
+        {
+            //Create a new card thats the result of the two nums subtracted 
+            return;
+        }
+
+        //CASE 2: ONE OF THE TWO IS A NUMBER
+        if (operand1 is EquationNumber || operand2 is EquationNumber)
+        {
+            int number = GetNumberFromOperands(operand1, operand2);
+
+            EquationSymbolShapeCatagory shapeCatagory = (EquationSymbolShapeCatagory)GetNonNumberSymbolFromOperands(operand1, operand2);
+            shapeCatagory.RemovePiecesOfSymbolTypeFromBoard(number, board);
+
+            return;
+        }
+
+        //CASE 3: NEITHER ARE NUMBERS (At this point we know they aren't the same type of Symbol)
+        //EquationSymbolShapeCatagory shapeCatagory1 = (EquationSymbolShapeCatagory)operand1;
+        //EquationSymbolShapeCatagory shapeCatagory2 = (EquationSymbolShapeCatagory)operand2;
+
+        //shapeCatagory1.CombineWithOtherShapeCatagory(shapeCatagory2, board);
+    }
+
+    public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
+    {
+        label.text = "-";
     }
 }
 
@@ -197,8 +237,10 @@ public abstract class EquationSymbolShapeCatagory : EquationSymbol
     //Adds a given number of pieces to a given board based on this symbol type 
     public abstract void AddPiecesOfSymbolTypeToBoard(int number, GameBoard gameBoard);
 
+    public abstract void RemovePiecesOfSymbolTypeFromBoard(int number, GameBoard gameBoard);
+
     //Each symbol type should individually figure out how to combine itself with another catagory
-    public abstract void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board);
+    public abstract void CombineAndAddOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board);
     public abstract void GraphicsSetup(SpriteRenderer sr, TMP_Text label);
 }
 public class EquationShapeType : EquationSymbolShapeCatagory
@@ -224,7 +266,7 @@ public class EquationShapeType : EquationSymbolShapeCatagory
         }
     }
 
-    public override void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
+    public override void CombineAndAddOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
     {
         if (other is EquationColorType)
         {
@@ -241,6 +283,14 @@ public class EquationShapeType : EquationSymbolShapeCatagory
     public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
     {
         sr.sprite = ShapeUtil.ShapeTypeToSprite(shapeType);
+    }
+
+    public override void RemovePiecesOfSymbolTypeFromBoard(int number, GameBoard gameBoard)
+    {
+        for(int i = 0; i < number; i++)
+        {
+            gameBoard.RemoveRandomColorOfShape(shapeType);
+        }
     }
 }
 
@@ -267,7 +317,7 @@ public class EquationColorType : EquationSymbolShapeCatagory
         }
     }
 
-    public override void CombineWithOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
+    public override void CombineAndAddOtherShapeCatagory(EquationSymbolShapeCatagory other, GameBoard board)
     {
         if (other is EquationShapeType)
         {
@@ -284,5 +334,13 @@ public class EquationColorType : EquationSymbolShapeCatagory
     public override void GraphicsSetup(SpriteRenderer sr, TMP_Text label)
     {
         sr.color = ShapeUtil.ShapeColorToColor(shapeColor);
+    }
+
+    public override void RemovePiecesOfSymbolTypeFromBoard(int number, GameBoard gameBoard)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            gameBoard.RemoveRandomShapeOfColor(shapeColor);
+        }
     }
 }

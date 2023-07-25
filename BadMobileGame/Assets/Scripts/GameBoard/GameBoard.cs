@@ -26,4 +26,13 @@ public interface GameBoard
 
     //For making sure internal piece list is synced after multiplies shapes after multiplying or smthn
     void RegisterMultipleNewPeices(List<GameBoardPeice> newPieces);
+
+    //Methods for removing pieces from a board
+    void RemoveRandomPiece();
+
+    void RemoveSpecificPieces(List<GameBoardPeice> pieces);
+
+    void RemoveRandomShapeOfColor(ShapeColor color);
+
+    void RemoveRandomColorOfShape(ShapeType type);
 }

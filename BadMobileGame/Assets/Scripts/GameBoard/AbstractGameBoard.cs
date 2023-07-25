@@ -23,10 +23,9 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            foreach(GameBoardPeice b in GetAllPiecesOfType(ShapeType.square))
-            {
-                pieces.AddRange(b.MultiplyPiece(2));
-            }
+            //RemoveRandomPiece();
+            //RemoveSpecificPieces(GetAllPieces());
+            RemoveRandomColorOfShape(ShapeType.triangle);
         }
     }
 
@@ -105,5 +104,46 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
                 pieces.Add(p);
             }
         }
+    }
+
+    public void RemoveRandomPiece()
+    {
+        if (GetTotalPieces() > 0)
+        {
+            RemovePieceHelper(pieces[Random.Range(0, pieces.Count)]);
+        }    
+    }
+
+    public void RemoveSpecificPieces(List<GameBoardPeice> pieces)
+    {
+        for(int i = pieces.Count - 1; i >= 0; i--)
+        {
+            RemovePieceHelper(pieces[i]);
+        }
+    }
+
+    public void RemoveRandomShapeOfColor(ShapeColor color)
+    {
+        List<GameBoardPeice> piecesOfColor = GetAllPiecesOfColor(color);
+        if (piecesOfColor.Count > 0)
+        {
+            RemovePieceHelper(piecesOfColor[Random.Range(0, piecesOfColor.Count)]);
+        }     
+    }
+
+    public void RemoveRandomColorOfShape(ShapeType type)
+    {
+        List<GameBoardPeice> piecesOfShape = GetAllPiecesOfType(type);
+        if (piecesOfShape.Count > 0)
+        {
+            RemovePieceHelper(piecesOfShape[Random.Range(0, piecesOfShape.Count)]);
+        }
+    }
+
+    //Avoids code duplication, not a part of the interface
+    private void RemovePieceHelper(GameBoardPeice piece)
+    {
+        pieces.Remove(piece);
+        piece.DestroyPiece();
     }
 }

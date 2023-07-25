@@ -20,6 +20,7 @@ public class EquationCard : Draggable
     public void Initialize(EquationSymbol equationSymbol, CardCloud cloud) {
         this.equationSymbol = equationSymbol;
         this.cloud = cloud;
+        ReturnToCloud();
         InitGraphics();
     }
 
@@ -49,6 +50,12 @@ public class EquationCard : Draggable
     private void InitGraphics() {
         //Graphics functionality lives on each specific EquationSymbol
         equationSymbol.GraphicsSetup(sr, label);
+    }
+
+    public void ReturnToCloud() {
+        float xRand = Random.Range(-2f, 2f);
+        float yRand = Random.Range(-1.25f, 1.25f);
+        MoveTo(cloud.transform.position + new Vector3(xRand, yRand));
     }
 
     public void DestroyCard() {

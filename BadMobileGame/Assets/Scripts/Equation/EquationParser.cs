@@ -41,22 +41,23 @@ public class EquationParser : MonoBehaviour
         //}
     }
 
-    public void ParseEquation(EquationSymbol operand1, EquationExpression expression, EquationSymbol operand2)
+    public bool ParseEquation(EquationSymbol operand1, EquationExpression expression, EquationSymbol operand2)
     {
         //Failure cases
         //CASE 1: BOTH ARE THE SAME TYPE & NOT NUMBERS
         if (!(operand1 is EquationNumber) && !(operand2 is EquationNumber)) //both aren't numbers
         {
-            if (operand1.GetType() == operand2.GetType()) { return; }
+            if (operand1.GetType() == operand2.GetType()) { return false; }
         }
         //CASE 2: TRYING TO SUBTRACT ANY 2 SHAPE SYMBOLS (for now, figure this is a mostly useless feature to have) 
         if((operand1 is EquationSymbolShapeCatagory) && (operand2 is EquationSymbolShapeCatagory) && (expression is SubtractExpression))
         {
-            return;
+            return false;
         }
 
         //Otherwise, let the expression type handle the results 
         expression.Parse(operand1, operand2, gameBoard);
+        return true;
     }
 }
 

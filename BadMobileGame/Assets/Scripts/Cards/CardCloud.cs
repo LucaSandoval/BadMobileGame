@@ -17,6 +17,7 @@ public class CardCloud : MonoBehaviour
         MakeCard(new MultiplyExpression());
         MakeCard(new AddExpression());
         MakeCard(new EquationColorType(ShapeColor.blue));
+        MakeCard(new EquationColorType(ShapeColor.green));
         MakeCard(new EquationShapeType(ShapeType.triangle));
     }
 

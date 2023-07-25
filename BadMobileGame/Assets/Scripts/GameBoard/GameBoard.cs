@@ -35,4 +35,6 @@ public interface GameBoard
     void RemoveRandomShapeOfColor(ShapeColor color);
 
     void RemoveRandomColorOfShape(ShapeType type);
+
+    void RemoveSpecificPiece(GameBoardPeice piece);
 }

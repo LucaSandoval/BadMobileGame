@@ -14,6 +14,9 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     protected RigidBodyStats rigidBodyStats;
     protected Rigidbody2D rb;
 
+    //Gameboard
+    protected GameBoard gameBoard;
+
     
     //Sets up basic components and default info
     public virtual void BaseInitialize()
@@ -29,7 +32,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         gameObject.tag = "Shape";
 
         //Set up base size
-        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         //Set up Phyrics
         InitiializeRigidBody();
@@ -43,6 +46,11 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
 
         //Fallback sprite if nothing else loads for some reason
         baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
+    }
+
+    public void PutInGameBoard(GameBoard board)
+    {
+        gameBoard = board;
     }
 
     private void InitiializeRigidBody() {
@@ -73,6 +81,10 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     //Should be overwritten
     public virtual void DestroyPiece()
     {
+        if(gameBoard != null)
+        {
+            gameBoard.RemoveSpecificPiece(this);
+        }
         Destroy(gameObject);
     }
 
@@ -131,6 +143,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     public virtual void InitializeBaseShapeCollider() 
     {
         gameObject.AddComponent<CircleCollider2D>();
+        gameObject.layer = 6; //shapes layer for special collisions
     }
 
     //Should be overwritten
@@ -152,6 +165,11 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     private void OnCollisionEnter2D(Collision2D collision)
     {
         pieceGraphics.Stretch(rb.velocity);
+
+        if(collision.gameObject.layer == 9) //touching lava
+        {
+            DestroyPiece();
+        }
     }
 
 }

@@ -20,4 +20,7 @@ public interface GameBoardPeice
 
     //Returns an exact copy of this piece 
     GameBoardPeice DuplicatePiece();
+
+    //Associate with a gameboard.
+    void PutInGameBoard(GameBoard board);
 }

@@ -46,6 +46,7 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
         GameBoardPeice newPiece = GameEntityController.SpawnShape(type, color);
         newPiece.SetPosition(initSpawnPosition.position);
         pieces.Add(newPiece);
+        newPiece.PutInGameBoard(this);
     }
 
     public List<GameBoardPeice> GetAllPieces()
@@ -145,5 +146,13 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
     {
         pieces.Remove(piece);
         piece.DestroyPiece();
+    }
+
+    public void RemoveSpecificPiece(GameBoardPeice piece)
+    {
+        if (pieces.Contains(piece))
+        {
+            pieces.Remove(piece);
+        }  
     }
 }

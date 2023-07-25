@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3b97c852e938904b852e69788d38caa, type: 3}
+  m_Name: Normal Hand
+  m_EditorClassIdentifier: 
+  SymbolProbabilities:
+  - Symbol: 3
+    Probabilities:
+    - MinInclusive: 1
+      MaxInclusive: 1
+      ProbabilityPct: 100
+  - Symbol: 4
+    Probabilities:
+    - MinInclusive: 2
+      MaxInclusive: 2
+      ProbabilityPct: 80
+    - MinInclusive: 3
+      MaxInclusive: 3
+      ProbabilityPct: 20
+  - Symbol: 261632
+    Probabilities:
+    - MinInclusive: 2
+      MaxInclusive: 2
+      ProbabilityPct: 100
+  - Symbol: 448
+    Probabilities:
+    - MinInclusive: 2
+      MaxInclusive: 2
+      ProbabilityPct: 100
+  - Symbol: 48
+    Probabilities:
+    - MinInclusive: 1
+      MaxInclusive: 1
+      ProbabilityPct: 100
+  - Symbol: 8
+    Probabilities:
+    - MinInclusive: 3
+      MaxInclusive: 3
+      ProbabilityPct: 100
+  - Symbol: 229376
+    Probabilities:
+    - MinInclusive: 1
+      MaxInclusive: 1
+      ProbabilityPct: 100

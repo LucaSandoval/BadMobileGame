@@ -11,6 +11,7 @@ public class EquationCard : Draggable
     //(placeholder) Graphics...
     [SerializeField] TMP_Text label;
     [SerializeField] SpriteRenderer sr;
+    [SerializeField] BoxCollider2D coll;
 
     /// <summary>
     /// Sets values of this instance to given variables then initializes graphics.
@@ -22,6 +23,13 @@ public class EquationCard : Draggable
         this.cloud = cloud;
         ReturnToCloud();
         InitGraphics();
+    }
+
+    public override void EnterDrag()
+    {
+        base.EnterDrag();
+        coll.isTrigger = true;
+        transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
     /// <summary>
@@ -36,6 +44,7 @@ public class EquationCard : Draggable
                 slots.SlotCard(this);
             }
         }
+        coll.isTrigger = false;
         base.ExitDrag();
     }
 

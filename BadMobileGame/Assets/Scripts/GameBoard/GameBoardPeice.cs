@@ -23,4 +23,7 @@ public interface GameBoardPeice
 
     //Associate with a gameboard.
     void PutInGameBoard(GameBoard board);
+
+    //Removes collision with gameboards & other pieces so the piece can 'fall'
+    void SetFallingState();
 }

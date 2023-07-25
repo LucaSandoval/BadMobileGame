@@ -166,10 +166,14 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     {
         pieceGraphics.Stretch(rb.velocity);
 
-        if(collision.gameObject.layer == 9) //touching lava
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Lava")) //touching lava
         {
             DestroyPiece();
         }
     }
 
+    public void SetFallingState()
+    {
+        gameObject.layer = LayerMask.NameToLayer("FallingShape"); //falling shape layer
+    }
 }

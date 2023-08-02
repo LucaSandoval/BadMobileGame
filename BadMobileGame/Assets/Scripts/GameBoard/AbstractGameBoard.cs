@@ -145,7 +145,7 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
     private void RemovePieceHelper(GameBoardPeice piece)
     {
         pieces.Remove(piece);
-        piece.SetFallingState();
+        piece.SetFallingState();    
     }
 
     public void RemoveSpecificPiece(GameBoardPeice piece)

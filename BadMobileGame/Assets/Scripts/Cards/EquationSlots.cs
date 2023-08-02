@@ -109,6 +109,7 @@ public class EquationSlots : MonoBehaviour
             right = null;
 
             cloud.DestroyAllCardsInDeck();
+            cloud.GenerateCardBatch();
         }
         else {
             left.ReturnToCloud();

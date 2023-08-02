@@ -93,7 +93,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     public virtual List<GameBoardPeice> MultiplyPiece(int factor)
     {
         Vector2 originPoint = transform.position;
-        float spawnRadius = 1f;
+        float spawnRadius = 0.1f;
 
         //Create a new array of output peices
         //Set this to be the first piece and position it at the correct

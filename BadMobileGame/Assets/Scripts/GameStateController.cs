@@ -15,6 +15,12 @@ public class GameStateController : MonoBehaviour
     //Pause
     public bool gamePaused;
 
+    //Game Stats
+    private float difficultyFactor;
+
+    private float shapeLossTimerMAX;
+    private float shapeLossTimer;
+
     public void Start()
     {
         gamePhase = GamePhase.game;
@@ -26,19 +32,24 @@ public class GameStateController : MonoBehaviour
         switch (phase)
         {
             case GamePhase.game:
+
+                difficultyFactor = 0;
+                shapeLossTimerMAX = 5f;
+                shapeLossTimer = shapeLossTimerMAX;
+
                 //Start by adding a few random pieces to the board to begin with
-                for(int i = 0; i < 12; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     gameBoard.AddRandomShapeToBoard();
                 }
-
+                //Generate staring deck
                 cloud.GenerateCardBatch();
 
                 break;
         }
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         switch (gamePhase)
         {
@@ -53,6 +64,29 @@ public class GameStateController : MonoBehaviour
         if (gamePaused)
         {
             return;
+        }
+
+        //Tick timer
+        if (shapeLossTimer > 0)
+        {
+            shapeLossTimer -= Time.deltaTime;
+        } else
+        {
+            shapeLossTimer = shapeLossTimerMAX;
+            //RemoveShapesFromBoard(difficultyFactor);
+        }
+
+        //Increase difficulty
+        difficultyFactor += Time.deltaTime;
+    }
+
+    private void RemoveShapesFromBoard(float difficulty)
+    {
+        int numOfShapes = 1;
+
+        for(int i = 0; i < numOfShapes; i++)
+        {
+            gameBoard.RemoveRandomPiece();
         }
     }
 }

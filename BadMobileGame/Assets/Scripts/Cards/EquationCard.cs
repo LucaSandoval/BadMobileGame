@@ -62,12 +62,13 @@ public class EquationCard : Draggable
     }
 
     public void ReturnToCloud() {
-        float xRand = Random.Range(-2f, 2f);
-        float yRand = Random.Range(-1.25f, 1.25f);
+        float xRand = Random.Range(-0.2f, 0.2f);
+        float yRand = Random.Range(-0.2f, 0.2f);
         MoveTo(cloud.transform.position + new Vector3(xRand, yRand));
     }
 
     public void DestroyCard() {
+        cloud.RemoveCardFromDeck(this);
         Destroy(gameObject);
     }
 

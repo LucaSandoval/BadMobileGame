@@ -8,7 +8,7 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
     [Header("Board Details")]
     public Transform initSpawnPosition; //where new shapes should spawn
 
-    public virtual void Start()
+    public virtual void Awake()
     {
         pieces = new List<GameBoardPeice>();
     }
@@ -154,5 +154,13 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
         {
             pieces.Remove(piece);
         }  
+    }
+
+    public void AddRandomShapeToBoard()
+    {
+        ShapeColor randColor = (ShapeColor)Random.Range(0, System.Enum.GetValues(typeof(ShapeColor)).Length);
+        ShapeType randType = (ShapeType)Random.Range(0, System.Enum.GetValues(typeof(ShapeType)).Length);
+
+        AddShapeToBoard(randColor, randType);
     }
 }

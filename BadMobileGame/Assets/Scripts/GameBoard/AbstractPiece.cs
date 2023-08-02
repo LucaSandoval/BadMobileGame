@@ -32,7 +32,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         gameObject.tag = "Shape";
 
         //Set up base size
-        transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
         //Set up Phyrics
         InitiializeRigidBody();
@@ -62,6 +62,7 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         rb.drag = rigidBodyStats.linearDrag;
         rb.angularDrag = rigidBodyStats.angularDrag;
         rb.sharedMaterial = rigidBodyStats.physicsMaterial;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
         //prevent weird collisions
         float radius = .3f;

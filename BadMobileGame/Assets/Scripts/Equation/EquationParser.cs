@@ -9,29 +9,29 @@ public class EquationParser : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ParseEquation(new EquationShapeType(ShapeType.triangle), 
-                new SubtractExpression(), 
-                new EquationNumber(5));
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    ParseEquation(new EquationShapeType(ShapeType.triangle), 
+        //        new SubtractExpression(), 
+        //        new EquationNumber(5));
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ParseEquation(new EquationColorType(ShapeColor.red),
-                new MultiplyExpression(),
-                new EquationShapeType(ShapeType.square));
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    ParseEquation(new EquationColorType(ShapeColor.red),
+        //        new MultiplyExpression(),
+        //        new EquationShapeType(ShapeType.square));
+        //}
 
-        foreach(Touch touch in Input.touches)
-        {
-            if(touch.phase == TouchPhase.Began)
-            {
-                ParseEquation(new EquationColorType(ShapeColor.red),
-                new AddExpression(),
-                new EquationShapeType(ShapeType.square));
-            }
-        }
+        //foreach(Touch touch in Input.touches)
+        //{
+        //    if(touch.phase == TouchPhase.Began)
+        //    {
+        //        ParseEquation(new EquationColorType(ShapeColor.red),
+        //        new AddExpression(),
+        //        new EquationShapeType(ShapeType.square));
+        //    }
+        //}
 
         //if (Input.GetKeyDown(KeyCode.Alpha3))
         //{

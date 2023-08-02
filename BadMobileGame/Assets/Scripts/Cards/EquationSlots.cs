@@ -15,6 +15,8 @@ public class EquationSlots : MonoBehaviour
 
     [SerializeField] EquationParser equationParser;
 
+    [SerializeField] CardCloud cloud;
+
     public void SlotCard(EquationCard card)
     {
         if (DEBUG) print("card's Equation Symbol: " + card.GetEquationSymbol());
@@ -105,6 +107,8 @@ public class EquationSlots : MonoBehaviour
             left = null;
             middle = null;
             right = null;
+
+            cloud.DestroyAllCardsInDeck();
         }
         else {
             left.ReturnToCloud();

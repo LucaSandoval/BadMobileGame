@@ -24,6 +24,8 @@ public interface GameBoard
 
     void AddRandomColorFromShape(ShapeType type);
 
+    void AddRandomShapeToBoard();
+
     //For making sure internal piece list is synced after multiplies shapes after multiplying or smthn
     void RegisterMultipleNewPeices(List<GameBoardPeice> newPieces);
 

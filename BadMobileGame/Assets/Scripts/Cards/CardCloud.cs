@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class CardCloud : MonoBehaviour
 {
-    List<EquationCard> deck = new List<EquationCard>();
+    private List<EquationCard> deck = new List<EquationCard>();
     public GameObject cardPrefab;
     public HandGenerationProfile profile;
 
     //scriptable objects for objects
 
     //need at least one math symbol... 
-    void Start()
+    void Awake()
     {
-        GenerateCardBatch();
-        /*        MakeCard(new EquationNumber(7));
-                MakeCard(new MultiplyExpression());
-                MakeCard(new AddExpression());
-                MakeCard(new EquationColorType(ShapeColor.blue));
-                MakeCard(new EquationColorType(ShapeColor.green));
-                MakeCard(new EquationShapeType(ShapeType.triangle));*/
+        deck = new List<EquationCard>();
     }
 
-    void GenerateCardBatch()
+    public void GenerateCardBatch()
     {
         //For each probability 
         foreach (EquationSymbolProbability prob in profile.SymbolProbabilities)
@@ -55,6 +49,7 @@ public class CardCloud : MonoBehaviour
         GameObject spawnedCardObject = Instantiate(cardPrefab, GetNewCardSpawnPos(), Quaternion.identity);
         EquationCard card = spawnedCardObject.GetComponent<EquationCard>();
         card.Initialize(symbol, this);
+        deck.Add(card);
         return card;
     }
 
@@ -62,6 +57,24 @@ public class CardCloud : MonoBehaviour
     {
         //stubbed for now... will put it somewhere floaty within in the cloud in a good spot.
         return transform.position;
+    }
+
+    public void RemoveCardFromDeck(EquationCard card)
+    {
+        if (deck.Contains(card)) { deck.Remove(card); }
+    }
+
+    public void DestroyAllCardsInDeck()
+    {
+        if (deck.Count > 0)
+        {
+            for(int i = deck.Count - 1; i >= 0; i--)
+            {
+                deck[i].DestroyCard();
+            }
+
+            deck.Clear();
+        }
     }
 
 }

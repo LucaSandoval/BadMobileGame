@@ -9,12 +9,12 @@ public class EquationParser : MonoBehaviour
 
     public void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    ParseEquation(new EquationShapeType(ShapeType.triangle), 
-        //        new SubtractExpression(), 
-        //        new EquationNumber(5));
-        //}
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ParseEquation(new EquationColorType(ShapeColor.blue),
+                new MultiplyExpression(),
+                new EquationNumber(2));
+        }
 
         //if (Input.GetKeyDown(KeyCode.Alpha2))
         //{
@@ -136,6 +136,7 @@ public class MultiplyExpression : EquationExpression
 
             foreach(GameBoardPeice p in pieces)
             {
+                //GameObject test = p.test();
                 board.RegisterMultipleNewPeices(p.MultiplyPiece(number));
             }
 

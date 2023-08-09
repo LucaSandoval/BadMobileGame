@@ -100,9 +100,11 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
     {
         foreach(GameBoardPeice p in newPieces)
         {
+            //GameObject test = p.test();
             if (!pieces.Contains(p))
             {
                 pieces.Add(p);
+                p.PutInGameBoard(this);
             }
         }
     }

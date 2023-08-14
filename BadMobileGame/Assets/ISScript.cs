@@ -13,13 +13,13 @@ public class ISScript : MonoBehaviour
     void Start()
     {
         //For Rewarded Video
-        IronSource.Agent.init(APP_KEY, IronSourceAdUnits.REWARDED_VIDEO);
+        //IronSource.Agent.init(APP_KEY, IronSourceAdUnits.REWARDED_VIDEO);
         //For Interstitial
-        IronSource.Agent.init(APP_KEY, IronSourceAdUnits.INTERSTITIAL);
+        //IronSource.Agent.init(APP_KEY, IronSourceAdUnits.INTERSTITIAL);
         //For Offerwall - not sure what this is.
         //IronSource.Agent.init(APP_KEY, IronSourceAdUnits.OFFERWALL);
         //For Banners
-        IronSource.Agent.init(APP_KEY, IronSourceAdUnits.BANNER);
+        //IronSource.Agent.init(APP_KEY, IronSourceAdUnits.BANNER);
 
 
 
@@ -189,7 +189,7 @@ public class ISScript : MonoBehaviour
     //Rewarded callbacks
     
 /************* RewardedVideo AdInfo Delegates *************/
-// Indicates that there’s an available ad.
+// Indicates that thereï¿½s an available ad.
 // The adInfo object includes information about the ad that was loaded successfully
 // This replaces the RewardedVideoAvailabilityChangedEvent(true) event
 void RewardedVideoOnAdAvailable(IronSourceAdInfo adInfo) {
@@ -216,7 +216,7 @@ void RewardedVideoOnAdShowFailedEvent(IronSourceError error, IronSourceAdInfo ad
 }
 // Invoked when the video ad was clicked.
 // This callback is not supported by all networks, and we recommend using it only if
-// it’s supported by all networks you included in your build.
+// itï¿½s supported by all networks you included in your build.
 void RewardedVideoOnAdClickedEvent(IronSourcePlacement placement, IronSourceAdInfo adInfo){
 }
 

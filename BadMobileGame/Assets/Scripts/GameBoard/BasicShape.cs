@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BasicShape : AbstractPiece
 {
+    public GameObject collisionParticlesPrefab;
+
     //Types
     protected ShapeType shapeType;
     protected ShapeColor shapeColor;
@@ -26,8 +28,19 @@ public class BasicShape : AbstractPiece
 
     public override GameBoardPeice DuplicatePiece()
     {
+        PlayDuplicationEffect(); // Play the effect when duplicating
+
         BasicShape newShape = GameEntityController.SpawnShape(shapeType, shapeColor);
         return newShape;
+    }
+
+    public void PlayDuplicationEffect()
+    {
+        if (collisionParticlesPrefab)
+        {
+            GameObject effectInstance = Instantiate(collisionParticlesPrefab, transform.position, Quaternion.identity);
+            Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds
+        }
     }
 
     public override Sprite GetBaseShapeSprite()

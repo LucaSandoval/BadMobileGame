@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameStateController : MonoBehaviour
 {
@@ -32,13 +33,22 @@ public class GameStateController : MonoBehaviour
     {
         GameEntityController.duplicationEffectPrefab = duplicationParticlePrefab;
         InitState(GameState.game);
+
+        //Bind events
+        BasicShape.ScoreEvent += IncreaseScore;
+    }
+
+    private void IncreaseScore(int byScore)
+    {
+        score += byScore;
     }
 
     public void Update()
     {
         uiController.debugText.text = "phase = " + gamePhase.ToString() + ", total pieces = " + gameBoard.GetTotalPieces();
+        uiController.scoreText.text = score.ToString();
 
-        switch(gamePhase)
+        switch (gamePhase)
         {
             case GameState.gameLoss:
                 TickLossPhase();
@@ -53,6 +63,7 @@ public class GameStateController : MonoBehaviour
         {
             case GameState.game:
 
+                score = 0;
                 difficultyFactor = 0;
                 shapeLossTimerMAX = 5f;
                 shapeLossTimer = shapeLossTimerMAX;

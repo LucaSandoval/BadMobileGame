@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BasicShape : AbstractPiece
 {
@@ -14,13 +15,14 @@ public class BasicShape : AbstractPiece
     private Sprite triangleSprite;
     private Sprite circleSprite;
 
+    //Events
+    public static event Action<int> ScoreEvent;
+
     public void Initialize(ShapeType type, ShapeColor color)
     {
         base.BaseInitialize();
         shapeType = type;
         shapeColor = color;
-
-
 
         gameObject.name = shapeColor.ToString() + " " + shapeType.ToString();
     }
@@ -74,6 +76,12 @@ public class BasicShape : AbstractPiece
             main.startColor = ShapeUtil.ShapeColorToColor(shapeColor);
             Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds
         }
+    }
+
+    public override void DestroyPiece()
+    {
+        ScoreEvent?.Invoke(1);
+        base.DestroyPiece();
     }
 }
 

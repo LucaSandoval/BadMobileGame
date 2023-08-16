@@ -7,4 +7,6 @@ public class UIController : MonoBehaviour
 {
     [Header("Misc.")]
     public Text debugText;
+
+    public Text scoreText;
 }

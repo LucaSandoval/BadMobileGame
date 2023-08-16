@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
+
+    public GameObject duplicationParticlePrefab;
+
     //Systems 
     public AbstractGameBoard gameBoard;
     public EquationParser equationParser;
@@ -23,6 +26,7 @@ public class GameStateController : MonoBehaviour
 
     public void Start()
     {
+        GameEntityController.duplicationEffectPrefab = duplicationParticlePrefab;
         gamePhase = GamePhase.game;
         InitPhase(gamePhase);
     }

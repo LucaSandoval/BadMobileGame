@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class GameEntityController
 {
+    public static GameObject duplicationEffectPrefab;
+
     public static BasicShape SpawnShape(ShapeType type, ShapeColor color)
     {
         GameObject newPiece = new GameObject();

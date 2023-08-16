@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BasicShape : AbstractPiece
 {
-    public GameObject collisionParticlesPrefab;
 
     //Types
     protected ShapeType shapeType;
@@ -34,14 +33,6 @@ public class BasicShape : AbstractPiece
         return newShape;
     }
 
-    public void PlayDuplicationEffect()
-    {
-        if (collisionParticlesPrefab)
-        {
-            GameObject effectInstance = Instantiate(collisionParticlesPrefab, transform.position, Quaternion.identity);
-            Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds
-        }
-    }
 
     public override Sprite GetBaseShapeSprite()
     {
@@ -71,6 +62,15 @@ public class BasicShape : AbstractPiece
     public void ChangeShapeColor(ShapeColor newColor)
     {
         shapeColor = newColor;
+    }
+
+    private void PlayDuplicationEffect()
+    {
+        if (GameEntityController.duplicationEffectPrefab)
+        {
+            GameObject effectInstance = Instantiate(GameEntityController.duplicationEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds; adjust as needed.
+        }
     }
 }
 

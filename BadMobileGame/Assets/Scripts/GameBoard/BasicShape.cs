@@ -69,7 +69,10 @@ public class BasicShape : AbstractPiece
         if (GameEntityController.duplicationEffectPrefab)
         {
             GameObject effectInstance = Instantiate(GameEntityController.duplicationEffectPrefab, transform.position, Quaternion.identity);
-            Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds; adjust as needed.
+            ParticleSystem ps = effectInstance.GetComponent<ParticleSystem>();
+            var main = ps.main;
+            main.startColor = ShapeUtil.ShapeColorToColor(shapeColor);
+            Destroy(effectInstance, 5f); // Assumes the effect duration is 5 seconds
         }
     }
 }

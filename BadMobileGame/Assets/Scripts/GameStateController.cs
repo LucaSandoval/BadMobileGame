@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
+    [Header("Public Variables")]
+    public int score;
 
     public GameObject duplicationParticlePrefab;
 
@@ -13,29 +15,43 @@ public class GameStateController : MonoBehaviour
     public CardCloud cloud;
 
     //Current phase
-    private GamePhase gamePhase;
+    private GameState gamePhase;
 
     //Pause
     public bool gamePaused;
 
     //Game Stats
-    private float difficultyFactor;
+    [SerializeField] private float difficultyFactor;
 
     private float shapeLossTimerMAX;
     private float shapeLossTimer;
 
+    public UIController uiController;
+
     public void Start()
     {
         GameEntityController.duplicationEffectPrefab = duplicationParticlePrefab;
-        gamePhase = GamePhase.game;
-        InitPhase(gamePhase);
+        InitState(GameState.game);
     }
 
-    public void InitPhase(GamePhase phase)
+    public void Update()
     {
+        uiController.debugText.text = "phase = " + gamePhase.ToString() + ", total pieces = " + gameBoard.GetTotalPieces();
+
+        switch(gamePhase)
+        {
+            case GameState.gameLoss:
+                TickLossPhase();
+                break;
+        }
+    }
+
+    public void InitState(GameState phase)
+    {
+        gamePhase = phase;
         switch (phase)
         {
-            case GamePhase.game:
+            case GameState.game:
 
                 difficultyFactor = 0;
                 shapeLossTimerMAX = 5f;
@@ -46,9 +62,14 @@ public class GameStateController : MonoBehaviour
                 {
                     gameBoard.AddRandomShapeToBoard();
                 }
+
                 //Generate staring deck
+                cloud.DestroyAllCardsInDeck();
                 cloud.GenerateCardBatch();
 
+                break;
+            case GameState.gameLoss:
+                cloud.DestroyAllCardsInDeck();
                 break;
         }
     }
@@ -57,9 +78,17 @@ public class GameStateController : MonoBehaviour
     {
         switch (gamePhase)
         {
-            case GamePhase.game:
+            case GameState.game:
                 TickGamePhase();
                 break;
+        }
+    }
+
+    private void TickLossPhase()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            InitState(GameState.game);
         }
     }
 
@@ -73,30 +102,56 @@ public class GameStateController : MonoBehaviour
         //Tick timer
         if (shapeLossTimer > 0)
         {
-            shapeLossTimer -= Time.deltaTime;
+            shapeLossTimer -= GetTimeDrainRate();
         } else
         {
             shapeLossTimer = shapeLossTimerMAX;
-            //RemoveShapesFromBoard(difficultyFactor);
+            RemoveShapesFromBoard(difficultyFactor);
         }
 
         //Increase difficulty
         difficultyFactor += Time.deltaTime;
+
+        //Check for loss 
+        if (gameBoard.GetTotalPieces() <= 0)
+        {
+            InitState(GameState.gameLoss);
+        }
     }
 
     private void RemoveShapesFromBoard(float difficulty)
     {
         int numOfShapes = 1;
 
-        for(int i = 0; i < numOfShapes; i++)
+        numOfShapes = Mathf.RoundToInt(Mathf.Lerp(1, 5, Mathf.InverseLerp(1, 20, difficulty)));
+
+        for (int i = 0; i < numOfShapes; i++)
         {
             gameBoard.RemoveRandomPiece();
         }
     }
+
+    private float GetTimeDrainRate()
+    {
+        int pieces = gameBoard.GetTotalPieces();
+        float multiplier = 1;
+
+        if (pieces < 25)
+        {
+            multiplier = 0.8f;
+        } else
+        {
+            multiplier = Mathf.Lerp(1, 30, Mathf.InverseLerp(1, 100, gameBoard.GetTotalPieces()));
+        }
+        
+        return Time.deltaTime * multiplier;
+    }
 }
 
-public enum GamePhase
+[System.Serializable]
+public enum GameState
 {
     titleScreen,
-    game
+    game,
+    gameLoss
 }

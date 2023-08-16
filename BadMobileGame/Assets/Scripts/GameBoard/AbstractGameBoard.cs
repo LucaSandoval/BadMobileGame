@@ -15,18 +15,18 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
 
     public virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddRandomShapeFromColor(ShapeColor.red);
-            AddRandomColorFromShape(ShapeType.triangle);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    AddRandomShapeFromColor(ShapeColor.red);
+        //    AddRandomColorFromShape(ShapeType.triangle);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //RemoveRandomPiece();
-            //RemoveSpecificPieces(GetAllPieces());
-            RemoveRandomColorOfShape(ShapeType.triangle);
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    //RemoveRandomPiece();
+        //    //RemoveSpecificPieces(GetAllPieces());
+        //    RemoveRandomColorOfShape(ShapeType.triangle);
+        //}
     }
 
     public void AddRandomColorFromShape(ShapeType type)

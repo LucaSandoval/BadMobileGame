@@ -9,12 +9,12 @@ public class EquationParser : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ParseEquation(new EquationColorType(ShapeColor.blue),
-                new MultiplyExpression(),
-                new EquationNumber(2));
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    ParseEquation(new EquationColorType(ShapeColor.blue),
+        //        new MultiplyExpression(),
+        //        new EquationNumber(2));
+        //}
 
         //if (Input.GetKeyDown(KeyCode.Alpha2))
         //{

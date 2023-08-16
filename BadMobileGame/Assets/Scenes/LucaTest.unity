@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugText: {fileID: 1072659109}
+  scoreText: {fileID: 1226941508}
 --- !u!1 &111880053
 GameObject:
   m_ObjectHideFlags: 0

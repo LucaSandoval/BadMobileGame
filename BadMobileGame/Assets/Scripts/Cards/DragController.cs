@@ -50,16 +50,16 @@ public class DragController : MonoBehaviour
     void EnterDrag(Draggable drag) {
         lastDragged = drag;
         isDragActive = true;
-        lastDragged.EnterDrag();
+        lastDragged?.EnterDrag();
     }
 
     void StayDrag() {
-        lastDragged.StayDrag(worldPos);
+        lastDragged?.StayDrag(worldPos);
     }
 
     void ExitDrag() {
         isDragActive = false;
-        lastDragged.ExitDrag();
+        lastDragged?.ExitDrag();
         clicked = false;
     }
 }

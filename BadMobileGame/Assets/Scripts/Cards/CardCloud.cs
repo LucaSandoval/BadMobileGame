@@ -7,6 +7,7 @@ public class CardCloud : MonoBehaviour
     private List<EquationCard> deck = new List<EquationCard>();
     public GameObject cardPrefab;
     public HandGenerationProfile profile;
+    public DraggableUIGrid uiGrid;
 
     //scriptable objects for objects
 
@@ -46,17 +47,11 @@ public class CardCloud : MonoBehaviour
     private EquationCard MakeCard(EquationSymbol symbol)
     {
         //Spawning in card and initializing it.
-        GameObject spawnedCardObject = Instantiate(cardPrefab, GetNewCardSpawnPos(), Quaternion.identity);
+        GameObject spawnedCardObject = Instantiate(cardPrefab, transform.position, Quaternion.identity);
         EquationCard card = spawnedCardObject.GetComponent<EquationCard>();
-        card.Initialize(symbol, this);
+        card.Initialize(symbol, this, uiGrid);
         deck.Add(card);
         return card;
-    }
-
-    private Vector3 GetNewCardSpawnPos()
-    {
-        //stubbed for now... will put it somewhere floaty within in the cloud in a good spot.
-        return transform.position;
     }
 
     public void RemoveCardFromDeck(EquationCard card)
@@ -66,6 +61,7 @@ public class CardCloud : MonoBehaviour
 
     public void DestroyAllCardsInDeck()
     {
+        uiGrid.ResetGrid();
         if (deck.Count > 0)
         {
             for(int i = deck.Count - 1; i >= 0; i--)

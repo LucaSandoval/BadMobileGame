@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class EquationSlots : MonoBehaviour
 {
-    private bool DEBUG = false;
+    private bool DEBUG = true;
     EquationCard left;
     EquationCard middle;
     EquationCard right;
@@ -65,6 +65,7 @@ public class EquationSlots : MonoBehaviour
 
     private EquationCard ReassignCard(EquationCard oldCard, EquationCard newCard, Transform slot)
     {
+        if (DEBUG) print("In Reassign card... oldCard: " + oldCard + ", newCard: " + newCard + " slot: " + slot);
         oldCard?.MoveTo(newCard.GetPickedUpLoc()); //move oldCard to where this newCard came from... swap position.
 
         //checks if this newCard is actually already assigned a value. Swaps values if so.
@@ -112,9 +113,9 @@ public class EquationSlots : MonoBehaviour
             cloud.GenerateCardBatch();
         }
         else {
-            left.ReturnToCloud();
-            middle.ReturnToCloud();
-            right.ReturnToCloud();
+            left.DispelCardBackToCloud();
+            middle.DispelCardBackToCloud();
+            right.DispelCardBackToCloud();
             left = null;
             middle = null;
             right = null;

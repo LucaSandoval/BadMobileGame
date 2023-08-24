@@ -7,6 +7,8 @@ public class Draggable : MonoBehaviour
 {
     protected Vector3 pickedUpLocation;
     public Action OnExitDragComplete;
+    public Action OnEnterDrag;
+    private bool DEBUG = true;
 
 
     public Vector3 GetPickedUpLoc() {
@@ -18,6 +20,7 @@ public class Draggable : MonoBehaviour
     /// </summary>
     public virtual void EnterDrag() {
         pickedUpLocation = transform.position;
+        OnEnterDrag?.Invoke();
     }
 
     /// <summary>
@@ -34,6 +37,7 @@ public class Draggable : MonoBehaviour
     /// <param name="pos"></param>
     public virtual void MoveTo(Vector3 pos)
     {
+        if(DEBUG) { print(gameObject.name + " is being moved to " + pos); }
         transform.position = pos;
     }
 

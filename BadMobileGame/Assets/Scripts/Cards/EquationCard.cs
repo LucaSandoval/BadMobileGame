@@ -5,8 +5,9 @@ using TMPro;
 
 public class EquationCard : Draggable
 {
-    CardCloud cloud; //reference to its cloud... could be useful later.
+    CardCloud handManager; //reference to its cloud... could be useful later.
     EquationSymbol equationSymbol;
+    DraggableUIGrid uiGrid;
 
     //(placeholder) Graphics...
     [SerializeField] TMP_Text label;
@@ -17,11 +18,12 @@ public class EquationCard : Draggable
     /// Sets values of this instance to given variables then initializes graphics.
     /// </summary>
     /// <param name="equationSymbol"></param>
-    /// <param name="cloud"></param>
-    public void Initialize(EquationSymbol equationSymbol, CardCloud cloud) {
+    /// <param name="handManager"></param>
+    public void Initialize(EquationSymbol equationSymbol, CardCloud handManager, DraggableUIGrid uiGrid) {
         this.equationSymbol = equationSymbol;
-        this.cloud = cloud;
-        ReturnToCloud();
+        this.handManager = handManager;
+        this.uiGrid = uiGrid;
+        DispelCardBackToCloud();
         InitGraphics();
     }
 
@@ -30,6 +32,7 @@ public class EquationCard : Draggable
         base.EnterDrag();
         coll.isTrigger = true;
         transform.rotation = Quaternion.Euler(Vector3.zero);
+        uiGrid.RemoveItemFromGrid(this);
     }
 
     /// <summary>
@@ -39,10 +42,17 @@ public class EquationCard : Draggable
     {
         //When dropping, check if it's over the EquationSlot object and slip it in
         Collider2D[] colls = Physics2D.OverlapCircleAll(transform.position, .2f);
+        bool hitSlot = false;
         foreach(Collider2D coll in colls) {
             if (coll.CompareTag("EquationSlots") && coll.TryGetComponent(out EquationSlots slots)) {
                 slots.SlotCard(this);
+                hitSlot = true;
             }
+        }
+
+        //If this card wasn't dropped over EquationSlots then just send it back to the grid...
+        if (!hitSlot) {
+            uiGrid.AddItemToGrid(this);
         }
         coll.isTrigger = false;
         base.ExitDrag();
@@ -61,14 +71,16 @@ public class EquationCard : Draggable
         equationSymbol.GraphicsSetup(sr, label);
     }
 
-    public void ReturnToCloud() {
-        float xRand = Random.Range(-0.2f, 0.2f);
-        float yRand = Random.Range(-0.2f, 0.2f);
-        MoveTo(cloud.transform.position + new Vector3(xRand, yRand));
+    /// <summary>
+    /// 
+    /// </summary>
+    public void DispelCardBackToCloud() {
+        uiGrid.AddItemToGrid(this);
     }
 
     public void DestroyCard() {
-        cloud.RemoveCardFromDeck(this);
+        handManager.RemoveCardFromDeck(this);
+        //uiGrid.RemoveItemFromGrid(this);
         Destroy(gameObject);
     }
 

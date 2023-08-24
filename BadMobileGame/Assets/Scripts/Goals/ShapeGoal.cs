@@ -25,7 +25,7 @@ public class ShapeGoal : MonoBehaviour, GameGoal
     {
         if (gameBoard != null)
         {
-            //gameBoard.get
+            CurrentPieces = gameBoard.GetAllSpecificPieces(shapeType, shapeColor).Count;
 
             if (IsComplete())
             {

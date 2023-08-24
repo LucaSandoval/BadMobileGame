@@ -165,4 +165,22 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
 
         AddShapeToBoard(randColor, randType);
     }
+
+    public List<GameBoardPeice> GetAllSpecificPieces(ShapeType type, ShapeColor color)
+    {
+        List<GameBoardPeice> shapeList = new List<GameBoardPeice>();
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i] is BasicShape)
+            {
+                BasicShape shape = (BasicShape)pieces[i];
+                if (shape.GetShapeType() == type && shape.GetShapeColor() == color)
+                {
+                    shapeList.Add(pieces[i]);
+                }
+            }
+        }
+
+        return shapeList;
+    }
 }

@@ -17,6 +17,8 @@ public interface GameBoard
 
     List<GameBoardPeice> GetAllPiecesOfColor(ShapeColor color);
 
+    List<GameBoardPeice> GetAllSpecificPieces(ShapeType type, ShapeColor color);
+
     //Various methods for adding shapes to the board 
     void AddShapeToBoard(ShapeColor color, ShapeType type);
 

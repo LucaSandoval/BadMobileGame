@@ -12,13 +12,16 @@ public class ShapeGoal : MonoBehaviour, GameGoal
     protected ShapeType shapeType;
     protected ShapeColor shapeColor;
 
-    public void Initialize(int max, GameBoard board, ShapeType type, ShapeColor color)
+    protected GoalManager goalManager;
+
+    public void Initialize(int max, GameBoard board, ShapeType type, ShapeColor color, GoalManager manager)
     {
         MaxPieces = max;
         CurrentPieces = 0;
         gameBoard = board;
         shapeType = type;
         shapeColor = color;
+        goalManager = manager;
     }
 
     private void Update()
@@ -36,7 +39,11 @@ public class ShapeGoal : MonoBehaviour, GameGoal
 
     public virtual void CompleteGoal()
     {
-        //idk what to put here yet
+        if (goalManager.CurrentGoals.Contains(this))
+        {
+            goalManager.CurrentGoals.Remove(this);
+        }
+        Destroy(gameObject);
     }
 
     public virtual bool IsComplete()

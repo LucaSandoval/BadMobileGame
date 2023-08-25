@@ -8,7 +8,7 @@ public class Draggable : MonoBehaviour
     protected Vector3 pickedUpLocation;
     public Action OnExitDragComplete;
     public Action OnEnterDrag;
-    private bool DEBUG = true;
+    private bool DEBUG = false;
 
 
     public Vector3 GetPickedUpLoc() {

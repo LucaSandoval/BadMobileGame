@@ -14,6 +14,7 @@ public class GameStateController : MonoBehaviour
     public AbstractGameBoard gameBoard;
     public EquationParser equationParser;
     public CardCloud cloud;
+    public GoalManager goalManager;
 
     //Current phase
     private GameState gamePhase;
@@ -78,9 +79,19 @@ public class GameStateController : MonoBehaviour
                 cloud.DestroyAllCardsInDeck();
                 cloud.GenerateCardBatch();
 
+                //Create first goal
+                goalManager.BeginNewObjective(difficultyFactor);
+
                 break;
             case GameState.gameLoss:
+
+                //Clear goals and cards
                 cloud.DestroyAllCardsInDeck();
+                goalManager.StopObjective();
+
+                //Remove all shapes
+                //gameBoard.RemoveSpecificPieces(gameBoard.GetAllPieces());
+
                 break;
         }
     }
@@ -111,20 +122,31 @@ public class GameStateController : MonoBehaviour
         }
 
         //Tick timer
-        if (shapeLossTimer > 0)
-        {
-            shapeLossTimer -= GetTimeDrainRate();
-        } else
-        {
-            shapeLossTimer = shapeLossTimerMAX;
-            RemoveShapesFromBoard(difficultyFactor);
-        }
+        //if (shapeLossTimer > 0)
+        //{
+        //    shapeLossTimer -= GetTimeDrainRate();
+        //} else
+        //{
+        //    shapeLossTimer = shapeLossTimerMAX;
+        //    RemoveShapesFromBoard(difficultyFactor);
+        //}
+
+        //Check for goal completion
+        //if (goalManager.ObjectiveCompleted())
+        //{
+        //    goalManager.BeginNewObjective(difficultyFactor);
+        //}
 
         //Increase difficulty
         difficultyFactor += Time.deltaTime;
 
         //Check for loss 
         if (gameBoard.GetTotalPieces() <= 0)
+        {
+            InitState(GameState.gameLoss);
+        }
+
+        if (goalManager.ObjectiveFailed())
         {
             InitState(GameState.gameLoss);
         }

@@ -9,4 +9,6 @@ public class UIController : MonoBehaviour
     public Text debugText;
 
     public Text scoreText;
+
+    public Slider goalTimeSlider;
 }

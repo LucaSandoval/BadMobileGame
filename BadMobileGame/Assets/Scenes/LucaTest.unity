@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &18465417
 MonoBehaviour:
@@ -402,6 +402,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSpawnPosition: {fileID: 1639468564}
+--- !u!1 &130093898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 130093900}
+  - component: {fileID: 130093899}
+  m_Layer: 0
+  m_Name: GoalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &130093899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130093898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40413f28fa63bb240825ef7ee97320b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalTimer: 0
+  CurrentGoals: []
+  GoalParent: {fileID: 689985017}
+  gameBoard: {fileID: 112326459}
+  uiController: {fileID: 18465417}
+--- !u!4 &130093900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130093898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 414.06155, y: 397.92273, z: -1.3303092}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &152041655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,7 +2001,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590390130
 GameObject:
@@ -2040,7 +2089,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1595498315}
   - component: {fileID: 1595498316}
-  - component: {fileID: 1595498317}
   m_Layer: 0
   m_Name: GameStateController
   m_TagString: Untagged
@@ -2080,26 +2128,9 @@ MonoBehaviour:
   gameBoard: {fileID: 112326459}
   equationParser: {fileID: 876049423}
   cloud: {fileID: 2022941748}
-  goalManager: {fileID: 1595498317}
+  goalManager: {fileID: 130093899}
   gamePaused: 0
   difficultyFactor: 0
-  uiController: {fileID: 18465417}
---- !u!114 &1595498317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1595498314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40413f28fa63bb240825ef7ee97320b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goalTimer: 0
-  CurrentGoals: []
-  GoalParent: {fileID: 689985017}
-  gameBoard: {fileID: 112326459}
   uiController: {fileID: 18465417}
 --- !u!1 &1639468563
 GameObject:
@@ -2230,7 +2261,7 @@ RectTransform:
   - {fileID: 1226941507}
   - {fileID: 89149489}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -20,7 +20,7 @@ public class DraggableUIGrid : MonoBehaviour
     public void AddItemToGrid(Draggable spawnedItem)
     {
         items.Add(spawnedItem);
-        print("Item to grid... item count " + items.Count);
+        //print("Item to grid... item count " + items.Count);
         OnItemChanged();
     }
 
@@ -28,7 +28,7 @@ public class DraggableUIGrid : MonoBehaviour
     public void OnItemChanged()
     {
 
-        print("On Item changed");
+        //print("On Item changed");
         float xRange = (bottomRightPos.position.x - upperLeftPos.position.x);
         float yRange = (upperLeftPos.position.y - bottomRightPos.position.y);
         float centerY = bottomRightPos.position.y + yRange / 2f;
@@ -36,9 +36,9 @@ public class DraggableUIGrid : MonoBehaviour
 
         if (maxItemsPerRow <= 0) { Debug.LogWarning("UI Grid Max Rows 0... space or range is likely wrong."); return; }
 
-        print("item count: " + items.Count + " max itesm per row: " + maxItemsPerRow);
+        //print("item count: " + items.Count + " max itesm per row: " + maxItemsPerRow);
         int rows = Mathf.CeilToInt((float)items.Count / maxItemsPerRow);
-        print("rows: " + rows);
+        //print("rows: " + rows);
 
         grid = new List<Vector3>[rows];
 
@@ -59,7 +59,7 @@ public class DraggableUIGrid : MonoBehaviour
             }
         }
 
-        print("OnITemChanged done... grid count : " + grid.Length);
+        //print("OnITemChanged done... grid count : " + grid.Length);
 
     }
 

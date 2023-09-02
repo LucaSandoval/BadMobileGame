@@ -7,8 +7,8 @@ public class DraggableUIGrid : MonoBehaviour
     List<Vector3>[] grid = new List<Vector3>[0];
     public Transform upperLeftPos;
     public Transform bottomRightPos;
-    public float xSpacing = .35f;
-    public float ySpacing = .35f;
+    public float xSpacing = .6f;
+    public float ySpacing = .65f;
 
 
     public void ResetGrid() {

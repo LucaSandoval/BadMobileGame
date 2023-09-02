@@ -15,12 +15,22 @@ public class BasicShape : AbstractPiece
     private Sprite triangleSprite;
     private Sprite circleSprite;
 
+    private bool pooled = false;
+
     //Events
     public static event Action<int> ScoreEvent;
 
     public void Initialize(ShapeType type, ShapeColor color)
     {
-        base.BaseInitialize();
+        if(!pooled) base.BaseInitialize();
+
+        if (pooled) {
+            //... prevents weird physics stacking...
+            Vector3 dir = UnityEngine.Random.insideUnitCircle;
+            float strength = 1f;
+            rb.AddForce(dir.normalized * strength);
+        }
+
         shapeType = type;
         shapeColor = color;
 
@@ -81,7 +91,16 @@ public class BasicShape : AbstractPiece
     public override void DestroyPiece()
     {
         ScoreEvent?.Invoke(1);
-        base.DestroyPiece();
+
+        pooled = true;
+        ObjectPooling.INSTANCE.PooledBasicShapeDestroy(this);
+
+        if (gameBoard != null)
+        {
+            gameBoard.RemoveSpecificPiece(this);
+        }
+        //Hacked?... I think this is okay.
+        //base.DestroyPiece();
     }
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class EquationSlots : MonoBehaviour
 {
-    private bool DEBUG = true;
+    private bool DEBUG = false;
     EquationCard left;
     EquationCard middle;
     EquationCard right;

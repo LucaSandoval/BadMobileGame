@@ -21,12 +21,8 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
     //Sets up basic components and default info
     public virtual void BaseInitialize()
     {
-        //Set up graphics
-        graphicsParent = new GameObject();
-        pieceGraphics = graphicsParent.AddComponent<PieceGraphics>();
-        graphicsParent.transform.parent = transform;
-        graphicsParent.name = "Graphics Parent";
-        ren = graphicsParent.AddComponent<SpriteRenderer>();
+        //Graphics...
+        InitGraphics();
 
         //Setting tag of Shape to "Shape"
         gameObject.tag = "Shape";
@@ -37,20 +33,24 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         //Set up Phyrics
         InitiializeRigidBody();
         InitializeBaseShapeCollider();
-
-        //... prevents weird physics stacking...
-        Vector3 dir = Random.insideUnitCircle;
-        float strength = 1f;
-        rb.AddForce(dir.normalized * strength);
-        
-
-        //Fallback sprite if nothing else loads for some reason
-        baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
+       
     }
+
 
     public void PutInGameBoard(GameBoard board)
     {
         gameBoard = board;
+    }
+    protected virtual void InitGraphics() {
+        //Set up graphics
+        graphicsParent = new GameObject();
+        pieceGraphics = graphicsParent.AddComponent<PieceGraphics>();
+        graphicsParent.transform.parent = transform;
+        graphicsParent.name = "Graphics Parent";
+        ren = graphicsParent.AddComponent<SpriteRenderer>();
+
+        //Fallback sprite if nothing else loads for some reason
+        baseSprite = Resources.Load<Sprite>("Sprites/base_shapes1");
     }
 
     private void InitiializeRigidBody() {
@@ -62,21 +62,30 @@ public abstract class AbstractPiece : MonoBehaviour, GameBoardPeice
         rb.drag = rigidBodyStats.linearDrag;
         rb.angularDrag = rigidBodyStats.angularDrag;
         rb.sharedMaterial = rigidBodyStats.physicsMaterial;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
 
         //prevent weird collisions
+        float strength;
         float radius = .3f;
         Collider2D[] colls = Physics2D.OverlapCircleAll(rb.position, radius);
-        foreach(Collider2D coll in colls) {
-            if (coll.CompareTag("Shape")) {
-                if (coll.TryGetComponent(out Rigidbody2D otherRb)) {
+        foreach (Collider2D coll in colls)
+        {
+            if (coll.CompareTag("Shape"))
+            {
+                if (coll.TryGetComponent(out Rigidbody2D otherRb))
+                {
                     Vector2 opposite = rb.transform.position - otherRb.transform.position;
-                    float strength = 10f;
+                    strength = 5f;
                     otherRb.AddForce(opposite.normalized * strength, ForceMode2D.Impulse);
                     break;
                 }
             }
         }
+
+        //... prevents weird physics stacking...
+        Vector2 dir = Random.insideUnitCircle;
+        strength = 1;
+        rb.AddForce(dir.normalized * strength);
     }
 
     //Should be overwritten

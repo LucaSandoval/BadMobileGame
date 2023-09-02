@@ -8,10 +8,10 @@ public static class GameEntityController
 
     public static BasicShape SpawnShape(ShapeType type, ShapeColor color)
     {
-        GameObject newPiece = new GameObject();
+   /*     GameObject newPiece = new GameObject();
         BasicShape shapeClass = newPiece.AddComponent<BasicShape>();
-        shapeClass.Initialize(type, color);
+        shapeClass.Initialize(type, color);*/
 
-        return shapeClass;
+        return ObjectPooling.INSTANCE.PooledSpawnBasicShape(type, color);
     }
 }

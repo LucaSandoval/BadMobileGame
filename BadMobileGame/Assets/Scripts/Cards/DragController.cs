@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DragController : MonoBehaviour
@@ -13,7 +11,8 @@ public class DragController : MonoBehaviour
     void Update()
     {
         //Dropping
-        if (isDragActive && (Input.GetMouseButtonUp(0)) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended)) {
+        if (isDragActive && (Input.GetMouseButtonUp(0)) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        {
             ExitDrag();
         }
 
@@ -25,7 +24,8 @@ public class DragController : MonoBehaviour
             clicked = true;
         }
         //Touch Screen
-        else if (Input.touchCount > 0) {
+        else if (Input.touchCount > 0)
+        {
             screenPos = Input.GetTouch(0).position;
         }
 
@@ -35,31 +35,47 @@ public class DragController : MonoBehaviour
         {
             StayDrag();
         }
-        else if(clicked) {
+        else if (clicked)
+        {
             RaycastHit2D[] hits = Physics2D.RaycastAll(worldPos, Vector2.zero);
-            foreach (RaycastHit2D hit in hits) {
-                if (hit.collider != null) {
-                    if (hit.collider.transform.TryGetComponent(out Draggable draggable)) {
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider != null)
+                {
+                    if (hit.collider.transform.TryGetComponent(out Draggable draggable))
+                    {
                         EnterDrag(draggable);
                     }
-                }         
+                }
             }
         }
     }
 
-    void EnterDrag(Draggable drag) {
+    void EnterDrag(Draggable drag)
+    {
         lastDragged = drag;
         isDragActive = true;
-        lastDragged?.EnterDrag();
+        if (lastDragged != null)
+        {
+            lastDragged?.EnterDrag();
+        }
     }
 
-    void StayDrag() {
-        lastDragged?.StayDrag(worldPos);
+    void StayDrag()
+    {
+        if (lastDragged != null)
+        {
+            lastDragged?.StayDrag(worldPos);
+        }
     }
 
-    void ExitDrag() {
+    void ExitDrag()
+    {
         isDragActive = false;
-        lastDragged?.ExitDrag();
+        if (lastDragged != null)
+        {
+            lastDragged?.ExitDrag();
+        }
         clicked = false;
     }
 }

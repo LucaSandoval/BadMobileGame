@@ -9,7 +9,7 @@ public class GoalManager : MonoBehaviour
 
     private bool ObjectiveActive;
 
-    public List<ShapeGoal> CurrentGoals;
+    [SerializeField] public List<ShapeGoal> CurrentGoals;
 
     public GameObject GoalParent;
     private GameObject PieceGoalPrefab;
@@ -21,7 +21,7 @@ public class GoalManager : MonoBehaviour
 
     void Awake()
     {
-        //CurrentGoals = new List<ShapeGoal>();
+        CurrentGoals = new List<ShapeGoal>();
         PieceGoalPrefab = Resources.Load<GameObject>("Goals/goal_prefab");
     }
 
@@ -78,7 +78,7 @@ public class GoalManager : MonoBehaviour
             CurrentGoals = new List<ShapeGoal>();
         }
 
-        goalTimerMax = Mathf.RoundToInt(Mathf.Lerp(10, 20, Mathf.InverseLerp(1, 20, difficulty)));
+        goalTimerMax = Mathf.RoundToInt(Mathf.Lerp(30, 5, Mathf.InverseLerp(1, GameStateController.MaximumDifficultyValue, difficulty)));
         goalTimer = goalTimerMax;
 
         CreateNewGoalSet(difficulty);
@@ -91,7 +91,9 @@ public class GoalManager : MonoBehaviour
 
         //Pick an ammount to generate based on the difficulty 
         int numOfGoals = 1;
-        numOfGoals = Mathf.RoundToInt(Mathf.Lerp(1, 5, Mathf.InverseLerp(1, 20, difficulty)));
+        numOfGoals = Mathf.RoundToInt(Mathf.Lerp(1, 5, Mathf.InverseLerp(1, GameStateController.MaximumDifficultyValue, difficulty)));
+
+        //Debug.Log(numOfGoals);
 
         for (int i = 0; i < numOfGoals; i++)
         {

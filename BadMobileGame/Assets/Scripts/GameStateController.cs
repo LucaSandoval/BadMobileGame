@@ -30,6 +30,10 @@ public class GameStateController : MonoBehaviour
 
     public UIController uiController;
 
+    //A useful value to have the marks a hypothetical 'end point' for the game where everything
+    //is as hard as possible. Used for testing long term goals. 
+    public const float MaximumDifficultyValue = 200f;
+
     public void Start()
     {
         GameEntityController.duplicationEffectPrefab = duplicationParticlePrefab;
@@ -90,7 +94,7 @@ public class GameStateController : MonoBehaviour
                 goalManager.StopObjective();
 
                 //Remove all shapes
-                //gameBoard.RemoveSpecificPieces(gameBoard.GetAllPieces());
+                gameBoard.RemoveSpecificPieces(gameBoard.GetAllPieces());
 
                 break;
         }
@@ -132,10 +136,10 @@ public class GameStateController : MonoBehaviour
         //}
 
         //Check for goal completion
-        //if (goalManager.ObjectiveCompleted())
-        //{
-        //    goalManager.BeginNewObjective(difficultyFactor);
-        //}
+        if (goalManager.ObjectiveCompleted())
+        {
+            goalManager.BeginNewObjective(difficultyFactor);
+        }
 
         //Increase difficulty
         difficultyFactor += Time.deltaTime;
@@ -156,7 +160,7 @@ public class GameStateController : MonoBehaviour
     {
         int numOfShapes = 1;
 
-        numOfShapes = Mathf.RoundToInt(Mathf.Lerp(1, 5, Mathf.InverseLerp(1, 20, difficulty)));
+        numOfShapes = Mathf.RoundToInt(Mathf.Lerp(1, 5, Mathf.InverseLerp(1, MaximumDifficultyValue, difficulty)));
 
         for (int i = 0; i < numOfShapes; i++)
         {

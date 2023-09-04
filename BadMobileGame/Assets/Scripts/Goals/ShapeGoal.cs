@@ -39,6 +39,16 @@ public class ShapeGoal : MonoBehaviour, GameGoal
 
     public virtual void CompleteGoal()
     {
+        //Remove all pieces that go towards this goal(?)
+        if (gameBoard != null)
+        {
+            for (int i = 0; i < MaxPieces; i++)
+            {
+                gameBoard.RemoveSpecificPiece(shapeColor, shapeType);
+            }           
+        }
+
+        //Remove self from goal system
         if (goalManager.CurrentGoals.Contains(this))
         {
             goalManager.CurrentGoals.Remove(this);

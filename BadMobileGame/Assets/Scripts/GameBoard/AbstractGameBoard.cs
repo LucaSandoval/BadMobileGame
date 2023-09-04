@@ -158,6 +158,23 @@ public abstract class AbstractGameBoard : MonoBehaviour, GameBoard
         }  
     }
 
+    public void RemoveSpecificPiece(ShapeColor color, ShapeType type)
+    {
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i] is BasicShape)
+            {
+                BasicShape shape = (BasicShape)pieces[i];
+                if (shape.GetShapeType() == type && shape.GetShapeColor() == color)
+                {
+                    RemovePieceHelper(pieces[i]);
+                    return;
+                }
+            }
+        }
+    }
+
+
     public void AddRandomShapeToBoard()
     {
         ShapeColor randColor = (ShapeColor)Random.Range(0, System.Enum.GetValues(typeof(ShapeColor)).Length);

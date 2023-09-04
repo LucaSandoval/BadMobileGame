@@ -170,6 +170,7 @@ MonoBehaviour:
   debugText: {fileID: 1072659109}
   scoreText: {fileID: 1226941508}
   goalTimeSlider: {fileID: 731536610}
+  goalCompleteText: {fileID: 1111134586}
 --- !u!1 &89149488
 GameObject:
   m_ObjectHideFlags: 0

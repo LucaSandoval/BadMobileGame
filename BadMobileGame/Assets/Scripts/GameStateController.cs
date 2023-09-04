@@ -139,6 +139,7 @@ public class GameStateController : MonoBehaviour
         if (goalManager.ObjectiveCompleted())
         {
             goalManager.BeginNewObjective(difficultyFactor);
+            uiController.ShowGoalComplete(1.5f);
         }
 
         //Increase difficulty

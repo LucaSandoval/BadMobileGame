@@ -31,6 +31,7 @@ public class BasicShape : AbstractPiece
             rb.AddForce(dir.normalized * strength);
         }
 
+        gameObject.layer = LayerMask.NameToLayer("Shapes");
         shapeType = type;
         shapeColor = color;
 

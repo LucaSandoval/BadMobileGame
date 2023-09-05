@@ -1,29 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class AudioMute : MonoBehaviour
 {
-    private AudioSource audioSource;
-    private const string MUSIC_PREF_KEY = "MusicMuted";
+    private Sprite soundOnImage;
+    public Sprite soundOffImage;
+    public Button button;
+    private bool isOn = true;
 
-    private void Awake()
+    public AudioSource audioSource;
+
+    private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        UpdateVolume();
+        soundOnImage = button.image.sprite;
     }
 
-    public void ToggleMute()
+    public void ButtonClicked()
     {
-        int isMuted = PlayerPrefs.GetInt(MUSIC_PREF_KEY, 0);
-        isMuted = 1 - isMuted; // toggles between 1 and 0
-        PlayerPrefs.SetInt(MUSIC_PREF_KEY, isMuted);
-        UpdateVolume();
-    }
-
-    private void UpdateVolume()
-    {
-        int isMuted = PlayerPrefs.GetInt(MUSIC_PREF_KEY, 0);
-        audioSource.volume = (isMuted == 1) ? 0 : 1;
+        if (isOn)
+        {
+            button.image.sprite = soundOffImage;
+            isOn = false;
+            audioSource.mute = true;
+        }
+        else
+        {
+            button.image.sprite = soundOnImage;
+            isOn = true;
+            audioSource.mute = false;
+        }
     }
 }

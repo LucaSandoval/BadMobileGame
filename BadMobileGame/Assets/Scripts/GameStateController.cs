@@ -15,6 +15,7 @@ public class GameStateController : MonoBehaviour
     public EquationParser equationParser;
     public CardCloud cloud;
     public GoalManager goalManager;
+    public SoundPlayer soundPlayer;
 
     //Current phase
     private GameState gamePhase;
@@ -41,6 +42,8 @@ public class GameStateController : MonoBehaviour
 
         //Bind events
         BasicShape.ScoreEvent += IncreaseScore;
+
+        soundPlayer.PlaySound("test");
     }
 
     private void IncreaseScore(int byScore)
